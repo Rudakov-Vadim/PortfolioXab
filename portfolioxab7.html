@@ -1,0 +1,4114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ПортфолиоХаб - Цифровое портфолио для школьников и учителей</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9h-4v4h-2v-4H9V9h4V5h2v4h4v2z'/></svg>">
+    <style>
+        :root {
+            --primary-color: #f5f5f5;
+            --secondary-color: #e9e9e9;
+            --accent-color: #f0e6d2;
+            --text-color: #333;
+            --light-text: #666;
+            --admin-color: #d32f2f;
+            --teacher-color: #1976d2;
+            --student-color: #388e3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        /* Навигация */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .logo i {
+            color: var(--accent-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a:hover {
+            color: var(--light-text);
+        }
+        
+        .profile-circle {
+            width: 36px;
+            height: 36px; 
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .profile-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-badge {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        
+        .user-badge.admin {
+            background-color: var(--admin-color);
+        }
+        
+        .user-badge.teacher {
+            background-color: var(--teacher-color);
+        }
+        
+        .user-badge.student {
+            background-color: var(--student-color);
+        }
+        
+        /* Главный блок для гостей */
+        .hero {
+            background: linear-gradient(135deg, var(--accent-color), white);
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--light-text);
+        }
+        
+        .features {
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .features h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+        
+        .features-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .feature-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            flex: 1 1 250px;
+            max-width: 300px;
+            min-width: 250px;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+        
+        .feature-card p {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+        
+        /* Дополнительный контент для гостей */
+        .additional-content {
+            padding: 2rem 1rem;
+            background-color: var(--secondary-color);
+            text-align: center;
+        }
+        
+        .additional-content h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .additional-content p {
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            font-size: 1rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .cta-button:hover {
+            background-color: #e6d8c0;
+        }
+        
+        /* Футер */
+        footer {
+            background-color: white;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            color: var(--light-text);
+            font-size: 0.8rem;
+        }
+        
+        /* Модальные окна */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            margin: 1rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--light-text);
+        }
+        
+        /* Формы */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.8rem;
+        }
+        
+        .btn {
+            padding: 0.7rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+        }
+        
+        .btn-secondary {
+            background-color: #ddd;
+            color: var(--text-color);
+        }
+        
+        .btn-admin {
+            background-color: var(--admin-color);
+            color: white;
+        }
+        
+        .btn-teacher {
+            background-color: var(--teacher-color);
+            color: white;
+        }
+        
+        .btn-student {
+            background-color: var(--student-color);
+            color: white;
+        }
+        
+        /* Профиль */
+        .profile-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 350px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            overflow: hidden;
+            margin-right: 1rem;
+            position: relative;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-avatar-badge {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        
+        .profile-info h3 {
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+        }
+        
+        .profile-info p {
+            color: var(--light-text);
+            font-size: 0.8rem;
+        }
+        
+        .upload-area {
+            border: 2px dashed #ddd;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--accent-color);
+        }
+        
+        /* Кнопка закрытия профиля */
+        .close-profile {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--light-text);
+        }
+        
+        /* Приветственный блок в профиле */
+        .welcome-block {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .welcome-block i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-block h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .welcome-block p {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .welcome-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        /* Страница "О нас" */
+        .about-page {
+            display: none;
+            padding: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .about-page h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .about-content {
+                flex-direction: row;
+            }
+        }
+        
+        .about-text {
+            flex: 2;
+        }
+        
+        .about-image {
+            flex: 1;
+            background-color: var(--accent-color);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 150px;
+        }
+        
+        .about-image i {
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+        
+        .team-member {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 160px;
+            text-align: center;
+        }
+        
+        .team-member i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+        }
+        
+        .team-member h4 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .team-member p {
+            font-size: 0.8rem;
+            color: var(--light-text);
+        }
+        
+        /* Сообщения об ошибках */
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.7rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        
+        /* Главная страница пользователя */
+        .dashboard-page {
+            display: none;
+            padding: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .dashboard-title h2 {
+            font-size: 1.5rem;
+        }
+        
+        .dashboard-title p {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+        
+        .add-portfolio-btn {
+            padding: 0.7rem 1.5rem;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .add-portfolio-btn:hover {
+            background-color: #e6d8c0;
+        }
+        
+        .search-filter {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .filter-select {
+            padding: 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            min-width: 150px;
+        }
+        
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+        
+        .portfolio-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .portfolio-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .portfolio-image {
+            height: 180px;
+            background-color: var(--secondary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .portfolio-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .portfolio-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .portfolio-image i {
+            font-size: 3rem;
+            color: var(--accent-color);
+        }
+        
+        .portfolio-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .portfolio-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .portfolio-date {
+            color: var(--light-text);
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .portfolio-description {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: var(--light-text);
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+        
+        .portfolio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .portfolio-tag {
+            background-color: var(--secondary-color);
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--light-text);
+        }
+        
+        .portfolio-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+        
+        .portfolio-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            flex: 1;
+        }
+        
+        .portfolio-btn-view {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+        }
+        
+        .portfolio-btn-edit {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+        
+        .portfolio-btn-delete {
+            background-color: #ffebee;
+            color: #d32f2f;
+        }
+        
+        /* Модальное окно добавления портфолио */
+        .portfolio-modal {
+            max-width: 600px;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #ddd;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .file-upload-area:hover {
+            border-color: var(--accent-color);
+        }
+        
+        .uploaded-files {
+            margin-top: 1rem;
+        }
+        
+        .uploaded-file {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.7rem;
+            background-color: var(--secondary-color);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .uploaded-file-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .uploaded-file-name {
+            font-size: 0.9rem;
+        }
+        
+        .uploaded-file-size {
+            font-size: 0.8rem;
+            color: var(--light-text);
+        }
+        
+        .remove-file {
+            background: none;
+            border: none;
+            color: #d32f2f;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        /* Модальное окно просмотра файла */
+        .file-view-modal {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .file-view-content {
+            text-align: center;
+        }
+        
+        .file-view-content img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        
+        .file-view-content iframe {
+            width: 100%;
+            height: 70vh;
+            border: none;
+            border-radius: 4px;
+        }
+        
+        .file-view-actions {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        /* Сообщение о пустом поиске */
+        .no-results-message {
+            text-align: center;
+            padding: 3rem;
+            grid-column: 1 / -1;
+        }
+        
+        .no-results-message i {
+            font-size: 3rem;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+        }
+        
+        .no-results-message h3 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .no-results-message p {
+            color: var(--light-text);
+        }
+        
+        /* Панель управления учителя/админа */
+        .admin-panel-page, .teacher-panel-page {
+            display: none;
+            padding: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .panel-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--light-text);
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            color: var(--text-color);
+            border-bottom-color: var(--accent-color);
+        }
+        
+        .users-container, .groups-container, .classes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .user-card, .group-card, .class-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .user-card:hover, .group-card:hover, .class-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .user-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .user-avatar-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            margin-right: 1rem;
+            overflow: hidden;
+        }
+        
+        .user-avatar-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-role {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-top: 0.3rem;
+        }
+        
+        .user-role.admin {
+            background-color: var(--admin-color);
+            color: white;
+        }
+        
+        .user-role.teacher {
+            background-color: var(--teacher-color);
+            color: white;
+        }
+        
+        .user-role.student {
+            background-color: var(--student-color);
+            color: white;
+        }
+        
+        .student-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .class-student {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+        
+        .class-student:last-child {
+            border-bottom: none;
+        }
+        
+        .add-student-form {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--secondary-color);
+        }
+        
+        /* Школы */
+        .school-select {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .school-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: var(--light-text);
+            margin-left: 0.5rem;
+        }
+        
+        /* Адаптивные медиа-запросы */
+        @media (max-width: 480px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .feature-card {
+                min-width: 100%;
+            }
+            
+            .profile-modal {
+                width: 100%;
+                max-width: none;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .portfolio-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .users-container, .groups-container, .classes-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (min-width: 481px) and (max-width: 768px) {
+            .feature-card {
+                min-width: calc(50% - 1rem);
+            }
+            
+            .portfolio-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .users-container, .groups-container, .classes-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Навигация -->
+    <nav id="mainNav">
+        <div class="logo" id="logoBtn">
+            <i class="fas fa-book-open"></i>
+            <span>ПортфолиоХаб</span>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <!-- Ссылки будут добавляться динамически -->
+        </div>
+        <div class="profile-circle" id="profileBtn">
+            <i class="fas fa-user"></i>
+        </div>
+    </nav>
+    
+    <!-- Главная страница для гостей -->
+    <div id="mainPage">
+        <!-- Главный блок -->
+        <section class="hero">
+            <h1>ПортфолиоХаб</h1>
+            <p>Идеальная платформа для школьников и учителей по созданию цифрового портфолио. Организуйте свои достижения, проекты и работы в одном месте. Позже мы откроем доступ для всех желающих!</p>
+        </section>
+        
+        <!-- Преимущества -->
+        <section class="features">
+            <h2>Почему выбирают нас</h2>
+            <div class="features-container">
+                <div class="feature-card">
+                    <h3>Для школьников</h3>
+                    <p>Собирайте свои учебные достижения, проекты и грамоты в цифровом формате. Идеально для портфолио при поступлении.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Для учителей</h3>
+                    <p>Демонстрируйте свои методические разработки, успехи учеников и профессиональные достижения.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Простота использования</h3>
+                    <p>Интуитивно понятный интерфейс, разработанный специально для образовательных целей.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Безопасность</h3>
+                    <p>Конфиденциальность ваших данных. Вы сами решаете, что и кому показывать.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Дополнительный контент -->
+        <section class="additional-content">
+            <h2>Начните создавать свое портфолио сегодня</h2>
+            <p>Присоединяйтесь к школам и учителям, которые уже используют ПортфолиоХаб для организации учебных достижений.</p>
+            <button class="cta-button" id="registerBtn">Зарегистрироваться</button>
+        </section>
+    </div>
+    
+    <!-- Страница "О нас" -->
+    <div id="aboutPage" class="about-page">
+        <h2>О нашем проекте</h2>
+        
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Наша миссия</h3>
+                <p>Мы создали ПортфолиоХаб, чтобы помочь школьникам и учителям удобно организовывать и демонстрировать свои достижения в цифровом формате.</p>
+                <p>Наша платформа разработана специально для образовательных целей с учетом всех требований современной школы.</p>
+            </div>
+            <div class="about-image">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+        </div>
+        
+        <div class="about-content">
+            <div class="about-image">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="about-text">
+                <h3>Наша команда</h3>
+                <p>Мы - команда профессиональных разработчиков, создавших этот проект с нуля. Наша цель - сделать образование более современным и технологичным.</p>
+            </div>
+        </div>
+        
+        <h3 style="text-align: center; margin: 2rem 0 1rem;">Наши разработчики</h3>
+        <div class="team-members">
+            <div class="team-member">
+                <i class="fas fa-user-tie"></i>
+                <h4>Рудаков Вадим</h4>
+                <p>TeamLead, Frontend-разработчик</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Главная страница пользователя (Дашборд) -->
+    <div id="dashboardPage" class="dashboard-page">
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <h2 id="dashboardUserName">Моё портфолио</h2>
+                <p id="dashboardUserType">Здесь собраны все ваши достижения и работы</p>
+            </div>
+            <button class="add-portfolio-btn" id="addPortfolioBtn">
+                <i class="fas fa-plus-circle"></i>
+                Добавить работу
+            </button>
+        </div>
+        
+        <!-- Поиск и фильтрация -->
+        <div class="search-filter">
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="Поиск по названию, описанию или тегам...">
+                <select class="filter-select" id="filterDate">
+                    <option value="all">Все даты</option>
+                    <option value="today">Сегодня</option>
+                    <option value="week">За неделю</option>
+                    <option value="month">За месяц</option>
+                    <option value="year">За год</option>
+                </select>
+                <select class="filter-select" id="filterType">
+                    <option value="all">Все типы</option>
+                    <option value="certificate">Грамоты и сертификаты</option>
+                    <option value="project">Проекты</option>
+                    <option value="work">Работы</option>
+                    <option value="achievement">Достижения</option>
+                </select>
+                <button class="btn btn-primary" id="searchBtn">Найти</button>
+                <button class="btn btn-secondary" id="resetFilterBtn">Сбросить</button>
+            </div>
+        </div>
+        
+        <!-- Статистика -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" id="totalItems">0</div>
+                <div class="stat-label">Всего работ</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="certificatesCount">0</div>
+                <div class="stat-label">Грамоты</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="projectsCount">0</div>
+                <div class="stat-label">Проекты</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="thisMonthCount">0</div>
+                <div class="stat-label">За этот месяц</div>
+            </div>
+        </div>
+        
+        <!-- Список портфолио -->
+        <div id="portfolioList" class="portfolio-container">
+            <!-- Портфолио будут добавляться сюда динамически -->
+        </div>
+        
+        <div id="emptyPortfolioMessage" style="text-align: center; padding: 3rem; display: none;">
+            <i class="fas fa-folder-open" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+            <h3>У вас пока нет работ в портфолио</h3>
+            <p style="color: var(--light-text); margin-bottom: 1.5rem;">Начните добавлять свои достижения, чтобы они отображались здесь</p>
+            <button class="add-portfolio-btn" id="emptyAddBtn">
+                <i class="fas fa-plus-circle"></i>
+                Добавить первую работу
+            </button>
+        </div>
+    </div>
+    
+    <!-- Панель управления учителя -->
+    <div id="teacherPanelPage" class="teacher-panel-page">
+        <div class="panel-header">
+            <div>
+                <h2>Панель управления учителя</h2>
+                <p>Управление классами и учениками</p>
+            </div>
+        </div>
+        
+        <div class="panel-tabs" id="teacherTabs">
+            <button class="tab-btn active" data-tab="classes">Мои классы</button>
+            <button class="tab-btn" data-tab="students">Мои ученики</button>
+            <button class="tab-btn" data-tab="allStudents">Все ученики школы</button>
+        </div>
+        
+        <!-- Мои классы -->
+        <div class="tab-content" id="teacherClassesTab">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+                <button class="btn btn-teacher" id="createClassBtn">
+                    <i class="fas fa-plus-circle"></i> Создать класс
+                </button>
+            </div>
+            
+            <div id="teacherClassesList" class="classes-container">
+                <!-- Классы будут добавляться сюда динамически -->
+            </div>
+        </div>
+        
+        <!-- Мои ученики -->
+        <div class="tab-content" id="teacherStudentsTab" style="display: none;">
+            <div id="teacherStudentsList" class="users-container">
+                <!-- Ученики будут добавляться сюда динамически -->
+            </div>
+        </div>
+        
+        <!-- Все ученики школы -->
+        <div class="tab-content" id="teacherAllStudentsTab" style="display: none;">
+            <div class="search-filter">
+                <input type="text" class="search-input" id="searchStudentsInput" placeholder="Поиск учеников по имени...">
+                <button class="btn btn-primary" id="searchStudentsBtn">Найти</button>
+            </div>
+            
+            <div id="allStudentsList" class="users-container">
+                <!-- Все ученики школы будут добавляться сюда динамически -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Панель управления администратора -->
+    <div id="adminPanelPage" class="admin-panel-page">
+        <div class="panel-header">
+            <div>
+                <h2>Панель администратора</h2>
+                <p>Управление системой и пользователями</p>
+            </div>
+        </div>
+        
+        <div class="panel-tabs" id="adminTabs">
+            <button class="tab-btn active" data-tab="users">Все пользователи</button>
+            <button class="tab-btn" data-tab="teachers">Учителя</button>
+            <button class="tab-btn" data-tab="students">Школьники</button>
+            <button class="tab-btn" data-tab="schools">Школы</button>
+        </div>
+        
+        <!-- Все пользователи -->
+        <div class="tab-content" id="adminUsersTab">
+            <div id="adminUsersList" class="users-container">
+                <!-- Все пользователи будут добавляться сюда динамически -->
+            </div>
+        </div>
+        
+        <!-- Учителя -->
+        <div class="tab-content" id="adminTeachersTab" style="display: none;">
+            <div id="adminTeachersList" class="users-container">
+                <!-- Учителя будут добавляться сюда динамически -->
+            </div>
+        </div>
+        
+        <!-- Школьники -->
+        <div class="tab-content" id="adminStudentsTab" style="display: none;">
+            <div id="adminStudentsList" class="users-container">
+                <!-- Школьники будут добавляться сюда динамически -->
+            </div>
+        </div>
+        
+        <!-- Школы -->
+        <div class="tab-content" id="adminSchoolsTab" style="display: none;">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+                <button class="btn btn-admin" id="addSchoolBtn">
+                    <i class="fas fa-plus-circle"></i> Добавить школу
+                </button>
+            </div>
+            
+            <div id="schoolsList" class="classes-container">
+                <!-- Школы будут добавляться сюда динамически -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Футер -->
+    <footer>
+        <div class="footer-links">
+            <a id="contactsBtn">Контакты</a>
+            <a id="policyBtn">Политика конфиденциальности</a>
+            <a id="termsBtn">Условия использования</a>
+        </div>
+        <div class="copyright">© 2025 ПортфолиоХаб. Все права защищены.</div>
+    </footer>
+    
+    <!-- Модальные окна -->
+    <div id="contactsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Контакты</h2>
+            <p>Свяжитесь с нами по следующим номерам:</p>
+            <ul style="list-style: none; margin-top: 1rem;">
+                <li style="margin-bottom: 0.5rem;">8 (965) 628-56-17</li>
+                <li>8 (916) 574-92-07</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div id="policyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Политика конфиденциальности</h2>
+            <p style="margin-top: 1rem;">Мы серьезно относимся к защите ваших данных, особенно когда речь идет о школьниках и учителях. Все данные хранятся в безопасности и не передаются третьим лицам.</p>
+        </div>
+    </div>
+    
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Условия использования</h2>
+            <p style="margin-top: 1rem;">Используя наш сервис, вы соглашаетесь с нашими условиями. Платформа предназначена для образовательных целей. Запрещено размещать незаконный или оскорбительный контент.</p>
+        </div>
+    </div>
+    
+    <!-- Модальное окно добавления/редактирования портфолио -->
+    <div id="portfolioModal" class="modal">
+        <div class="modal-content portfolio-modal">
+            <span class="close-button">&times;</span>
+            <h2 id="portfolioModalTitle">Добавить работу в портфолио</h2>
+            <form id="portfolioForm" style="margin-top: 1.5rem;">
+                <div class="form-group">
+                    <label for="portfolioTitle">Название работы</label>
+                    <input type="text" id="portfolioTitle" required>
+                    <div class="error-message" id="portfolioTitleError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="portfolioType">Тип работы</label>
+                    <select id="portfolioType" required>
+                        <option value="certificate">Грамота/Сертификат</option>
+                        <option value="project">Проект</option>
+                        <option value="work">Работа</option>
+                        <option value="achievement">Достижение</option>
+                        <option value="other">Другое</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="portfolioDate">Дата получения/создания</label>
+                    <input type="date" id="portfolioDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="portfolioDescription">Описание</label>
+                    <textarea id="portfolioDescription" placeholder="Опишите вашу работу, достижение или проект..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="portfolioTags">Теги (через запятую)</label>
+                    <input type="text" id="portfolioTags" placeholder="например: математика, олимпиада, 1 место">
+                </div>
+                
+                <div class="form-group">
+                    <label>Добавить файлы</label>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; margin-bottom: 1rem; color: var(--light-text);"></i>
+                        <p>Перетащите файлы сюда или нажмите для загрузки</p>
+                        <p style="font-size: 0.8rem; color: var(--light-text); margin-top: 0.5rem;">Поддерживаются изображения, PDF и документы</p>
+                        <input type="file" id="portfolioFiles" style="display: none;" multiple accept="image/*,.pdf,.doc,.docx">
+                    </div>
+                    <div id="uploadedFilesList" class="uploaded-files"></div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelPortfolioBtn">Отмена</button>
+                    <button type="submit" class="btn btn-primary" id="savePortfolioBtn">Сохранить работу</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Модальное окно просмотра портфолио -->
+    <div id="viewPortfolioModal" class="modal">
+        <div class="modal-content portfolio-modal">
+            <span class="close-button">&times;</span>
+            <div id="viewPortfolioContent">
+                <!-- Контент будет заполняться динамически -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно просмотра файла -->
+    <div id="fileViewModal" class="modal">
+        <div class="modal-content file-view-modal">
+            <span class="close-button">&times;</span>
+            <div id="fileViewContent" class="file-view-content">
+                <!-- Контент файла будет заполняться динамически -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Регистрация -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Регистрация</h2>
+            <form id="registerForm" style="margin-top: 1.5rem;">
+                <div class="form-group">
+                    <label for="regName">Имя</label>
+                    <input type="text" id="regName" required>
+                    <div class="error-message" id="nameError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" required>
+                    <div class="error-message" id="emailError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Пароль (минимум 6 символов)</label>
+                    <input type="password" id="regPassword" required minlength="6">
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="regConfirmPassword">Подтвердите пароль</label>
+                    <input type="password" id="regConfirmPassword" required>
+                    <div class="error-message" id="confirmError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="userType">Я являюсь:</label>
+                    <select id="userType" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px;">
+                        <option value="student">Школьник</option>
+                        <option value="teacher">Учитель</option>
+                    </select>
+                </div>
+                <div class="form-group" id="schoolSelectGroup">
+                    <label for="userSchool">Школа (для школьников и учителей):</label>
+                    <select id="userSchool" class="school-select">
+                        <!-- Школы будут загружены динамически -->
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelRegister">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                </div>
+            </form>
+            <p style="margin-top: 1rem; text-align: center;">Уже есть аккаунт? <a href="#" id="loginLink">Войти</a></p>
+        </div>
+    </div>
+    
+    <!-- Вход -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Вход</h2>
+            <form id="loginForm" style="margin-top: 1.5rem;">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                    <div class="error-message" id="loginEmailError"></div>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Пароль</label>
+                    <input type="password" id="loginPassword" required>
+                    <div class="error-message" id="loginPasswordError"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelLogin">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Войти</button>
+                </div>
+            </form>
+            <p style="margin-top: 1rem; text-align: center;">Нет аккаунта? <a href="#" id="registerLink">Зарегистрироваться</a></p>
+        </div>
+    </div>
+    
+    <!-- Профиль -->
+    <div id="profileModal" class="profile-modal">
+        <button class="close-profile" id="closeProfile">&times;</button>
+        
+        <div id="profileContent">
+            <!-- Контент для авторизованных пользователей -->
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">
+                    <i class="fas fa-user" style="font-size: 2rem; color: #777; margin: 15px;"></i>
+                </div>
+                <div class="profile-info">
+                    <h3 id="profileName">Гость</h3>
+                    <p id="profileEmail">guest@example.com</p>
+                    <p id="profileType"></p>
+                    <span id="profileSchool" class="school-badge"></span>
+                </div>
+            </div>
+            
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 1.5rem; margin-bottom: 0.8rem; color: var(--light-text);"></i>
+                <p>Перетащите файлы сюда или нажмите для загрузки</p>
+                <input type="file" id="fileInput" style="display: none;" multiple>
+            </div>
+            
+            <div class="form-group">
+                <label for="profileBio">О себе</label>
+                <textarea id="profileBio" style="width: 100%; padding: 0.7rem; border: 1px solid #ddd; border-radius: 4px; min-height: 80px; font-size: 0.9rem;" placeholder="Расскажите о себе и своих достижениях"></textarea>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" id="saveProfile">Сохранить</button>
+            </div>
+            
+            <button type="button" class="btn btn-secondary" style="width: 100%; margin-top: 1.5rem;" id="logoutBtn">Выйти</button>
+        </div>
+        
+        <div id="welcomeContent" class="welcome-block">
+            <!-- Контент для гостей -->
+            <i class="fas fa-user-plus"></i>
+            <h3>Приветствуем вас!</h3>
+            <p>Зарегистрируйтесь или войдите на сайт, чтобы получить доступ ко всем возможностям платформы для создания цифрового портфолио.</p>
+            <div class="welcome-actions">
+                <button class="btn btn-primary" id="welcomeRegisterBtn">Зарегистрироваться</button>
+                <button class="btn btn-secondary" id="welcomeLoginBtn">Войти</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно создания/редактирования класса -->
+    <div id="classModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="classModalTitle">Создать новый класс</h2>
+            <form id="classForm" style="margin-top: 1.5rem;">
+                <div class="form-group">
+                    <label for="className">Название класса</label>
+                    <input type="text" id="className" required placeholder="Например: 10А, Математический кружок">
+                </div>
+                
+                <div class="form-group">
+                    <label for="classDescription">Описание класса</label>
+                    <textarea id="classDescription" placeholder="Опишите цели и задачи класса..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="classSubject">Предмет</label>
+                    <input type="text" id="classSubject" placeholder="Например: Математика, Физика">
+                </div>
+                
+                <div class="form-group">
+                    <label>Добавить учеников в класс</label>
+                    <div style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; border-radius: 4px; padding: 0.5rem;">
+                        <div id="availableStudentsList">
+                            <!-- Список доступных учеников будет заполнен динамически -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelClassBtn">Отмена</button>
+                    <button type="submit" class="btn btn-teacher" id="saveClassBtn">Сохранить класс</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Модальное окно просмотра класса -->
+    <div id="viewClassModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <span class="close-button">&times;</span>
+            <div id="viewClassContent">
+                <!-- Контент класса будет заполнен динамически -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно добавления школы -->
+    <div id="schoolModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Добавить новую школу</h2>
+            <form id="schoolForm" style="margin-top: 1.5rem;">
+                <div class="form-group">
+                    <label for="schoolName">Название школы</label>
+                    <input type="text" id="schoolName" required placeholder="Например: МБОУ СОШ №1 г. Москва">
+                </div>
+                
+                <div class="form-group">
+                    <label for="schoolCity">Город</label>
+                    <input type="text" id="schoolCity" required placeholder="Например: Москва">
+                </div>
+                
+                <div class="form-group">
+                    <label for="schoolAddress">Адрес</label>
+                    <input type="text" id="schoolAddress" placeholder="Улица, дом">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelSchoolBtn">Отмена</button>
+                    <button type="submit" class="btn btn-admin">Добавить школу</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Модальное окно просмотра ученика для учителя -->
+    <div id="viewStudentModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <span class="close-button">&times;</span>
+            <div id="viewStudentContent">
+                <!-- Контент ученика будет заполнен динамически -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // ============ ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ============
+        let users = [];
+        let currentUser = null;
+        let userPortfolios = [];
+        let editingPortfolioId = null;
+        let uploadedFiles = [];
+        let currentFilter = { search: '', date: 'all', type: 'all' };
+        let schools = [];
+        let classes = [];
+        
+        // ============ ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ ============
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            setupEventListeners();
+        });
+        
+        // ============ ОСНОВНЫЕ ФУНКЦИИ ============
+        
+        function initializeApp() {
+            // Загружаем данные из localStorage
+            loadUsersFromLocalStorage();
+            loadCurrentUserFromLocalStorage();
+            loadPortfoliosFromLocalStorage();
+            loadSchoolsFromLocalStorage();
+            loadClassesFromLocalStorage();
+            
+            // Создаем администратора по умолчанию если его нет
+            createDefaultAdmin();
+            
+            // Создаем тестовые школы если их нет
+            if (schools.length === 0) {
+                createDefaultSchools();
+            }
+            
+            // Обновляем интерфейс
+            updateProfileView();
+            updateNavigation();
+            
+            // Показать правильную страницу при загрузке
+            if (currentUser) {
+                showCorrectPageForUser();
+            } else {
+                showMainPage();
+            }
+        }
+        
+        function createDefaultAdmin() {
+            const adminExists = users.some(user => user.type === 'admin');
+            if (!adminExists) {
+                const adminUser = {
+                    id: 'admin001',
+                    name: 'Администратор',
+                    email: 'admin@portfolioxab.ru',
+                    password: '135792460',
+                    type: 'admin',
+                    school: null,
+                    bio: 'Системный администратор платформы',
+                    avatar: null,
+                    createdAt: new Date().toISOString()
+                };
+                users.push(adminUser);
+                saveUsersToLocalStorage();
+            }
+        }
+        
+        function createDefaultSchools() {
+            const defaultSchools = [
+                { id: 'school1', name: 'МБОУ СОШ №1 г. Москва', city: 'Москва', address: 'ул. Ленина, 1' },
+                { id: 'school2', name: 'Гимназия №2 г. Санкт-Петербург', city: 'Санкт-Петербург', address: 'пр. Невский, 10' },
+                { id: 'school3', name: 'Лицей №3 г. Казань', city: 'Казань', address: 'ул. Баумана, 5' }
+            ];
+            
+            defaultSchools.forEach(school => {
+                if (!schools.find(s => s.id === school.id)) {
+                    schools.push(school);
+                }
+            });
+            
+            saveSchoolsToLocalStorage();
+        }
+        
+        // ============ УПРАВЛЕНИЕ СТРАНИЦАМИ ============
+        
+        function showCorrectPageForUser() {
+            if (!currentUser) {
+                showMainPage();
+                return;
+            }
+            
+            switch (currentUser.type) {
+                case 'admin':
+                    showAdminPanel();
+                    break;
+                case 'teacher':
+                    showTeacherPanel();
+                    break;
+                case 'student':
+                    showDashboardPage();
+                    break;
+                default:
+                    showDashboardPage();
+            }
+        }
+        
+        function showMainPage() {
+            hideAllPages();
+            document.getElementById('mainPage').style.display = 'block';
+            updateNavigation();
+        }
+        
+        function showAboutPage() {
+            hideAllPages();
+            document.getElementById('aboutPage').style.display = 'block';
+            updateNavigation();
+        }
+        
+        function showDashboardPage() {
+            if (!currentUser) {
+                showMainPage();
+                return;
+            }
+            
+            hideAllPages();
+            document.getElementById('dashboardPage').style.display = 'block';
+            
+            updateDashboardInfo();
+            loadUserPortfolios();
+            applyFilters();
+        }
+        
+        function showTeacherPanel() {
+            if (!currentUser || currentUser.type !== 'teacher') {
+                showDashboardPage();
+                return;
+            }
+            
+            hideAllPages();
+            document.getElementById('teacherPanelPage').style.display = 'block';
+            
+            // Активируем первую вкладку
+            switchTeacherTab('classes');
+            loadTeacherClasses();
+            loadTeacherStudents();
+            loadAllStudentsFromSchool();
+        }
+        
+        function showAdminPanel() {
+            if (!currentUser || currentUser.type !== 'admin') {
+                showDashboardPage();
+                return;
+            }
+            
+            hideAllPages();
+            document.getElementById('adminPanelPage').style.display = 'block';
+            
+            // Активируем первую вкладку
+            switchAdminTab('users');
+            loadAllUsers();
+            loadAllTeachers();
+            loadAllStudents();
+            loadSchoolsList();
+        }
+        
+        function hideAllPages() {
+            const pages = ['mainPage', 'aboutPage', 'dashboardPage', 'teacherPanelPage', 'adminPanelPage'];
+            pages.forEach(page => {
+                const element = document.getElementById(page);
+                if (element) element.style.display = 'none';
+            });
+        }
+        
+        // ============ НАВИГАЦИЯ ============
+        
+        function updateNavigation() {
+            const navLinks = document.getElementById('navLinks');
+            if (!navLinks) return;
+            
+            navLinks.innerHTML = '';
+            
+            if (currentUser) {
+                // Для администратора
+                if (currentUser.type === 'admin') {
+                    const adminLink = document.createElement('a');
+                    adminLink.href = '#';
+                    adminLink.textContent = 'Панель админа';
+                    adminLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showAdminPanel();
+                    });
+                    navLinks.appendChild(adminLink);
+                }
+                
+                // Для учителя
+                if (currentUser.type === 'teacher') {
+                    const teacherLink = document.createElement('a');
+                    teacherLink.href = '#';
+                    teacherLink.textContent = 'Панель учителя';
+                    teacherLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showTeacherPanel();
+                    });
+                    navLinks.appendChild(teacherLink);
+                }
+                
+                // Для всех авторизованных
+                const dashboardLink = document.createElement('a');
+                dashboardLink.href = '#';
+                dashboardLink.textContent = 'Моё портфолио';
+                dashboardLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showDashboardPage();
+                });
+                navLinks.appendChild(dashboardLink);
+                
+                const aboutLink = document.createElement('a');
+                aboutLink.href = '#';
+                aboutLink.textContent = 'О нас';
+                aboutLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showAboutPage();
+                });
+                navLinks.appendChild(aboutLink);
+            } else {
+                // Для гостей
+                const homeLink = document.createElement('a');
+                homeLink.href = '#';
+                homeLink.textContent = 'Главная';
+                homeLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showMainPage();
+                });
+                navLinks.appendChild(homeLink);
+                
+                const aboutLink = document.createElement('a');
+                aboutLink.href = '#';
+                aboutLink.textContent = 'О нас';
+                aboutLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showAboutPage();
+                });
+                navLinks.appendChild(aboutLink);
+            }
+        }
+        
+        // ============ ШКОЛЫ ============
+        
+        function loadSchoolsFromLocalStorage() {
+            const storedSchools = localStorage.getItem('portfolioHubSchools');
+            if (storedSchools) {
+                schools = JSON.parse(storedSchools);
+            }
+        }
+        
+        function saveSchoolsToLocalStorage() {
+            localStorage.setItem('portfolioHubSchools', JSON.stringify(schools));
+        }
+        
+        function loadSchoolsList() {
+            const schoolsList = document.getElementById('schoolsList');
+            if (!schoolsList) return;
+            
+            schoolsList.innerHTML = '';
+            
+            schools.forEach(school => {
+                const schoolCard = document.createElement('div');
+                schoolCard.className = 'class-card';
+                schoolCard.innerHTML = `
+                    <h3>${school.name}</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> ${school.city}, ${school.address || 'адрес не указан'}</p>
+                    <p style="color: var(--light-text); font-size: 0.9rem; margin-top: 0.5rem;">
+                        ID: ${school.id}
+                    </p>
+                `;
+                schoolsList.appendChild(schoolCard);
+            });
+        }
+        
+        function getSchoolName(schoolId) {
+            const school = schools.find(s => s.id === schoolId);
+            return school ? school.name : 'Неизвестная школа';
+        }
+        
+        // ============ КЛАССЫ ============
+        
+        function loadClassesFromLocalStorage() {
+            const storedClasses = localStorage.getItem('portfolioHubClasses');
+            if (storedClasses) {
+                classes = JSON.parse(storedClasses);
+            }
+        }
+        
+        function saveClassesToLocalStorage() {
+            localStorage.setItem('portfolioHubClasses', JSON.stringify(classes));
+        }
+        
+        function loadTeacherClasses() {
+            if (!currentUser || currentUser.type !== 'teacher') return;
+            
+            const teacherClassesList = document.getElementById('teacherClassesList');
+            if (!teacherClassesList) return;
+            
+            teacherClassesList.innerHTML = '';
+            
+            const teacherClasses = classes.filter(c => c.teacherId === currentUser.id);
+            
+            if (teacherClasses.length === 0) {
+                teacherClassesList.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                        <i class="fas fa-chalkboard-teacher" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+                        <h3>У вас пока нет классов</h3>
+                        <p style="color: var(--light-text); margin-bottom: 1.5rem;">Создайте первый класс для управления учениками</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            teacherClasses.forEach(classItem => {
+                const studentCount = classItem.students ? classItem.students.length : 0;
+                const classCard = document.createElement('div');
+                classCard.className = 'class-card';
+                classCard.innerHTML = `
+                    <h3>${classItem.name}</h3>
+                    <p style="color: var(--light-text); font-size: 0.9rem; margin: 0.5rem 0;">
+                        ${classItem.subject ? 'Предмет: ' + classItem.subject : ''}
+                    </p>
+                    <p><i class="fas fa-users"></i> Учеников: ${studentCount}</p>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary" onclick="viewClassDetails('${classItem.id}')">
+                            <i class="fas fa-eye"></i> Просмотр
+                        </button>
+                        <button class="btn btn-secondary" onclick="editClass('${classItem.id}')">
+                            <i class="fas fa-edit"></i> Редактировать
+                        </button>
+                    </div>
+                `;
+                teacherClassesList.appendChild(classCard);
+            });
+        }
+        
+        // ============ УПРАВЛЕНИЕ ВКЛАДКАМИ ============
+        
+        function switchTeacherTab(tabName) {
+            // Скрываем все вкладки
+            document.querySelectorAll('#teacherTabs .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.querySelectorAll('#teacherPanelPage .tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Показываем выбранную вкладку
+            const tabBtn = document.querySelector(`#teacherTabs .tab-btn[data-tab="${tabName}"]`);
+            const tabContent = document.getElementById(`teacher${capitalizeFirstLetter(tabName)}Tab`);
+            
+            if (tabBtn) tabBtn.classList.add('active');
+            if (tabContent) tabContent.style.display = 'block';
+        }
+        
+        function switchAdminTab(tabName) {
+            // Скрываем все вкладки
+            document.querySelectorAll('#adminTabs .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.querySelectorAll('#adminPanelPage .tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Показываем выбранную вкладку
+            const tabBtn = document.querySelector(`#adminTabs .tab-btn[data-tab="${tabName}"]`);
+            const tabContent = document.getElementById(`admin${capitalizeFirstLetter(tabName)}Tab`);
+            
+            if (tabBtn) tabBtn.classList.add('active');
+            if (tabContent) tabContent.style.display = 'block';
+        }
+        
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        
+        // ============ ОБРАБОТЧИКИ СОБЫТИЙ ============
+        
+        function setupEventListeners() {
+            // Кнопки навигации
+            const logoBtn = document.getElementById('logoBtn');
+            if (logoBtn) {
+                logoBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (currentUser) {
+                        showCorrectPageForUser();
+                    } else {
+                        showMainPage();
+                    }
+                });
+            }
+            
+            // Кнопки в футере
+            const contactsBtn = document.getElementById('contactsBtn');
+            if (contactsBtn) {
+                contactsBtn.addEventListener('click', () => {
+                    document.getElementById('contactsModal').style.display = 'flex';
+                });
+            }
+            
+            const policyBtn = document.getElementById('policyBtn');
+            if (policyBtn) {
+                policyBtn.addEventListener('click', () => {
+                    document.getElementById('policyModal').style.display = 'flex';
+                });
+            }
+            
+            const termsBtn = document.getElementById('termsBtn');
+            if (termsBtn) {
+                termsBtn.addEventListener('click', () => {
+                    document.getElementById('termsModal').style.display = 'flex';
+                });
+            }
+            
+            // Кнопка регистрации
+            const registerBtn = document.getElementById('registerBtn');
+            if (registerBtn) {
+                registerBtn.addEventListener('click', () => {
+                    populateSchoolSelect();
+                    document.getElementById('registerModal').style.display = 'flex';
+                });
+            }
+            
+            // Профиль
+            const profileBtn = document.getElementById('profileBtn');
+            if (profileBtn) {
+                profileBtn.addEventListener('click', toggleProfileModal);
+            }
+            
+            const closeProfileBtn = document.getElementById('closeProfile');
+            if (closeProfileBtn) {
+                closeProfileBtn.addEventListener('click', () => {
+                    document.getElementById('profileModal').style.display = 'none';
+                });
+            }
+            
+            // Кнопки в профиле
+            const welcomeRegisterBtn = document.getElementById('welcomeRegisterBtn');
+            if (welcomeRegisterBtn) {
+                welcomeRegisterBtn.addEventListener('click', () => {
+                    document.getElementById('profileModal').style.display = 'none';
+                    populateSchoolSelect();
+                    document.getElementById('registerModal').style.display = 'flex';
+                });
+            }
+            
+            const welcomeLoginBtn = document.getElementById('welcomeLoginBtn');
+            if (welcomeLoginBtn) {
+                welcomeLoginBtn.addEventListener('click', () => {
+                    document.getElementById('profileModal').style.display = 'none';
+                    document.getElementById('loginModal').style.display = 'flex';
+                });
+            }
+            
+            // Ссылки между формами
+            const loginLink = document.getElementById('loginLink');
+            if (loginLink) {
+                loginLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('registerModal').style.display = 'none';
+                    document.getElementById('loginModal').style.display = 'flex';
+                });
+            }
+            
+            const registerLink = document.getElementById('registerLink');
+            if (registerLink) {
+                registerLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('loginModal').style.display = 'none';
+                    populateSchoolSelect();
+                    document.getElementById('registerModal').style.display = 'flex';
+                });
+            }
+            
+            // Закрытие модальных окон
+            const closeButtons = document.querySelectorAll('.close-button');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+            
+            // Закрытие при клике вне модального окна
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                }
+            });
+            
+            // Кнопки отмены
+            const cancelRegister = document.getElementById('cancelRegister');
+            if (cancelRegister) {
+                cancelRegister.addEventListener('click', () => {
+                    document.getElementById('registerModal').style.display = 'none';
+                });
+            }
+            
+            const cancelLogin = document.getElementById('cancelLogin');
+            if (cancelLogin) {
+                cancelLogin.addEventListener('click', () => {
+                    document.getElementById('loginModal').style.display = 'none';
+                });
+            }
+            
+            const cancelPortfolioBtn = document.getElementById('cancelPortfolioBtn');
+            if (cancelPortfolioBtn) {
+                cancelPortfolioBtn.addEventListener('click', () => {
+                    document.getElementById('portfolioModal').style.display = 'none';
+                });
+            }
+            
+            const cancelClassBtn = document.getElementById('cancelClassBtn');
+            if (cancelClassBtn) {
+                cancelClassBtn.addEventListener('click', () => {
+                    document.getElementById('classModal').style.display = 'none';
+                });
+            }
+            
+            const cancelSchoolBtn = document.getElementById('cancelSchoolBtn');
+            if (cancelSchoolBtn) {
+                cancelSchoolBtn.addEventListener('click', () => {
+                    document.getElementById('schoolModal').style.display = 'none';
+                });
+            }
+            
+            // Формы
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) {
+                registerForm.addEventListener('submit', handleRegister);
+            }
+            
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
+            
+            const portfolioForm = document.getElementById('portfolioForm');
+            if (portfolioForm) {
+                portfolioForm.addEventListener('submit', handlePortfolioSubmit);
+            }
+            
+            const schoolForm = document.getElementById('schoolForm');
+            if (schoolForm) {
+                schoolForm.addEventListener('submit', handleSchoolSubmit);
+            }
+            
+            // Кнопка создания класса
+            const createClassBtn = document.getElementById('createClassBtn');
+            if (createClassBtn) {
+                createClassBtn.addEventListener('click', () => {
+                    openClassModal();
+                });
+            }
+            
+            // Кнопка добавления школы
+            const addSchoolBtn = document.getElementById('addSchoolBtn');
+            if (addSchoolBtn) {
+                addSchoolBtn.addEventListener('click', () => {
+                    document.getElementById('schoolModal').style.display = 'flex';
+                });
+            }
+            
+            // Обработчики вкладок учителя
+            document.querySelectorAll('#teacherTabs .tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchTeacherTab(tabName);
+                });
+            });
+            
+            // Обработчики вкладок админа
+            document.querySelectorAll('#adminTabs .tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchAdminTab(tabName);
+                });
+            });
+            
+            // Кнопки в дашборде
+            const addPortfolioBtn = document.getElementById('addPortfolioBtn');
+            if (addPortfolioBtn) {
+                addPortfolioBtn.addEventListener('click', openAddPortfolioModal);
+            }
+            
+            const emptyAddBtn = document.getElementById('emptyAddBtn');
+            if (emptyAddBtn) {
+                emptyAddBtn.addEventListener('click', openAddPortfolioModal);
+            }
+            
+            const searchBtn = document.getElementById('searchBtn');
+            if (searchBtn) {
+                searchBtn.addEventListener('click', () => {
+                    currentFilter.search = document.getElementById('searchInput').value.trim();
+                    currentFilter.date = document.getElementById('filterDate').value;
+                    currentFilter.type = document.getElementById('filterType').value;
+                    applyFilters();
+                });
+            }
+            
+            const resetFilterBtn = document.getElementById('resetFilterBtn');
+            if (resetFilterBtn) {
+                resetFilterBtn.addEventListener('click', () => {
+                    document.getElementById('searchInput').value = '';
+                    document.getElementById('filterDate').value = 'all';
+                    document.getElementById('filterType').value = 'all';
+                    currentFilter = { search: '', date: 'all', type: 'all' };
+                    applyFilters();
+                });
+            }
+            
+            // Выход из системы
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', handleLogout);
+            }
+            
+            // Сохранение профиля
+            const saveProfile = document.getElementById('saveProfile');
+            if (saveProfile) {
+                saveProfile.addEventListener('click', handleSaveProfile);
+            }
+            
+            // Загрузка файлов для профиля
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            if (uploadArea && fileInput) {
+                uploadArea.addEventListener('click', () => fileInput.click());
+                
+                fileInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        const reader = new FileReader();
+                        
+                        reader.onload = function(e) {
+                            // Обновляем аватар в профиле
+                            updateAvatar(document.getElementById('profileAvatar'), e.target.result);
+                            
+                            // Обновляем аватар в кружке навигации
+                            updateAvatar(document.querySelector('.profile-circle'), e.target.result);
+                            
+                            // Сохраняем в текущем пользователе
+                            if (currentUser) {
+                                currentUser.avatar = e.target.result;
+                                saveUsersToLocalStorage();
+                                saveCurrentUserToLocalStorage();
+                            }
+                        }
+                        
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                });
+            }
+            
+            // Загрузка файлов для портфолио
+            const fileUploadArea = document.getElementById('fileUploadArea');
+            const portfolioFiles = document.getElementById('portfolioFiles');
+            if (fileUploadArea && portfolioFiles) {
+                fileUploadArea.addEventListener('click', () => portfolioFiles.click());
+                
+                portfolioFiles.addEventListener('change', function() {
+                    if (this.files && this.files.length > 0) {
+                        for (let i = 0; i < this.files.length; i++) {
+                            const file = this.files[i];
+                            const reader = new FileReader();
+                            
+                            reader.onload = function(e) {
+                                uploadedFiles.push({
+                                    name: file.name,
+                                    size: file.size,
+                                    type: file.type,
+                                    data: e.target.result
+                                });
+                                updateUploadedFilesList();
+                            }
+                            
+                            reader.readAsDataURL(file);
+                        }
+                    }
+                });
+            }
+        }
+        
+        // ============ РЕГИСТРАЦИЯ И АВТОРИЗАЦИЯ ============
+        
+        function handleRegister(e) {
+            e.preventDefault();
+            
+            resetErrorMessages();
+            
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+            const userType = document.getElementById('userType').value;
+            const userSchool = document.getElementById('userSchool').value;
+            
+            // Проверка администратора (особый пароль)
+            if (password === '135792460') {
+                // Создаем администратора
+                const newUser = {
+                    id: Date.now().toString(),
+                    name,
+                    email,
+                    password,
+                    type: 'admin',
+                    school: null,
+                    bio: '',
+                    avatar: null,
+                    createdAt: new Date().toISOString()
+                };
+                
+                users.push(newUser);
+                currentUser = newUser;
+                
+                saveUsersToLocalStorage();
+                saveCurrentUserToLocalStorage();
+                
+                updateProfileInfo();
+                updateProfileView();
+                updateNavigation();
+                
+                alert('Вы вошли как администратор!');
+                document.getElementById('registerModal').style.display = 'none';
+                document.getElementById('profileModal').style.display = 'none';
+                
+                showAdminPanel();
+                return;
+            }
+            
+            // Валидация для обычных пользователей
+            let isValid = true;
+            
+            if (name.length < 2) {
+                document.getElementById('nameError').textContent = 'Имя должно содержать минимум 2 символа';
+                document.getElementById('nameError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!validateEmail(email)) {
+                document.getElementById('emailError').textContent = 'Введите корректный email';
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (password.length < 6) {
+                document.getElementById('passwordError').textContent = 'Пароль должен содержать минимум 6 символов';
+                document.getElementById('passwordError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (password !== confirmPassword) {
+                document.getElementById('confirmError').textContent = 'Пароли не совпадают';
+                document.getElementById('confirmError').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Для школьников и учителей обязательна школа
+            if (!userSchool && (userType === 'student' || userType === 'teacher')) {
+                alert('Пожалуйста, выберите школу');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Проверка на существующего пользователя
+            const userExists = users.some(user => user.email === email);
+            if (userExists) {
+                document.getElementById('emailError').textContent = 'Пользователь с таким email уже зарегистрирован';
+                document.getElementById('emailError').style.display = 'block';
+                return;
+            }
+            
+            const newUser = {
+                id: Date.now().toString(),
+                name,
+                email,
+                password,
+                type: userType,
+                school: userSchool,
+                bio: '',
+                avatar: null,
+                createdAt: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            currentUser = newUser;
+            
+            saveUsersToLocalStorage();
+            saveCurrentUserToLocalStorage();
+            
+            updateProfileInfo();
+            updateProfileView();
+            updateNavigation();
+            
+            alert('Регистрация успешна!');
+            document.getElementById('registerModal').style.display = 'none';
+            document.getElementById('profileModal').style.display = 'none';
+            
+            // Переход на нужную страницу
+            showCorrectPageForUser();
+        }
+        
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            resetErrorMessages();
+            
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            // Валидация
+            let isValid = true;
+            
+            if (!validateEmail(email)) {
+                document.getElementById('loginEmailError').textContent = 'Введите корректный email';
+                document.getElementById('loginEmailError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (password.length < 1) {
+                document.getElementById('loginPasswordError').textContent = 'Введите пароль';
+                document.getElementById('loginPasswordError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            const user = users.find(u => u.email === email);
+            
+            if (!user) {
+                document.getElementById('loginEmailError').textContent = 'Пользователь с таким email не найден';
+                document.getElementById('loginEmailError').style.display = 'block';
+                return;
+            }
+            
+            if (user.password !== password) {
+                document.getElementById('loginPasswordError').textContent = 'Неверный пароль';
+                document.getElementById('loginPasswordError').style.display = 'block';
+                return;
+            }
+            
+            currentUser = user;
+            saveCurrentUserToLocalStorage();
+            
+            updateProfileInfo();
+            updateProfileView();
+            updateNavigation();
+            
+            alert('Вход выполнен!');
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('profileModal').style.display = 'none';
+            
+            // Переход на нужную страницу
+            showCorrectPageForUser();
+        }
+        
+        function handleLogout() {
+            if (confirm('Вы уверены, что хотите выйти?')) {
+                currentUser = null;
+                localStorage.removeItem('portfolioHubCurrentUser');
+                document.getElementById('profileModal').style.display = 'none';
+                updateProfileView();
+                updateNavigation();
+                
+                // Сбрасываем аватар в кружке
+                const profileCircle = document.querySelector('.profile-circle');
+                if (profileCircle) {
+                    profileCircle.innerHTML = '<i class="fas fa-user"></i>';
+                }
+                
+                // Переход на главную страницу
+                showMainPage();
+                
+                alert('Вы вышли из системы');
+            }
+        }
+        
+        // ============ ПРОФИЛЬ ============
+        
+        function toggleProfileModal(e) {
+            if (e) e.preventDefault();
+            
+            const profileModal = document.getElementById('profileModal');
+            if (profileModal.style.display === 'block') {
+                profileModal.style.display = 'none';
+            } else {
+                profileModal.style.display = 'block';
+                updateProfileView();
+            }
+        }
+        
+        function updateProfileView() {
+            const profileContent = document.getElementById('profileContent');
+            const welcomeContent = document.getElementById('welcomeContent');
+            
+            if (!profileContent || !welcomeContent) return;
+            
+            if (currentUser) {
+                profileContent.style.display = 'block';
+                welcomeContent.style.display = 'none';
+                updateProfileInfo();
+            } else {
+                profileContent.style.display = 'none';
+                welcomeContent.style.display = 'block';
+            }
+        }
+        
+        function updateProfileInfo() {
+            if (!currentUser) return;
+            
+            const profileName = document.getElementById('profileName');
+            const profileEmail = document.getElementById('profileEmail');
+            const profileType = document.getElementById('profileType');
+            const profileSchool = document.getElementById('profileSchool');
+            const profileBio = document.getElementById('profileBio');
+            
+            if (profileName) profileName.textContent = currentUser.name;
+            if (profileEmail) profileEmail.textContent = currentUser.email;
+            
+            if (profileType) {
+                let typeText = '';
+                if (currentUser.type === 'admin') typeText = 'Администратор';
+                else if (currentUser.type === 'teacher') typeText = 'Учитель';
+                else typeText = 'Школьник';
+                profileType.textContent = typeText;
+            }
+            
+            if (profileSchool) {
+                if (currentUser.school) {
+                    profileSchool.textContent = getSchoolName(currentUser.school);
+                    profileSchool.style.display = 'inline-block';
+                } else {
+                    profileSchool.textContent = '';
+                    profileSchool.style.display = 'none';
+                }
+            }
+            
+            if (profileBio) {
+                profileBio.value = currentUser.bio || '';
+            }
+            
+            // Обновляем аватар
+            if (currentUser.avatar) {
+                updateAvatar(document.getElementById('profileAvatar'), currentUser.avatar);
+                updateAvatar(document.querySelector('.profile-circle'), currentUser.avatar);
+            } else {
+                const profileAvatar = document.getElementById('profileAvatar');
+                if (profileAvatar) {
+                    profileAvatar.innerHTML = '<i class="fas fa-user" style="font-size: 2rem; color: #777; margin: 15px;"></i>';
+                }
+                const profileCircle = document.querySelector('.profile-circle');
+                if (profileCircle) {
+                    profileCircle.innerHTML = '<i class="fas fa-user"></i>';
+                }
+            }
+            
+            // Добавляем бейдж к аватару
+            addUserBadge();
+        }
+        
+        function addUserBadge() {
+            if (!currentUser) return;
+            
+            const profileAvatar = document.getElementById('profileAvatar');
+            const profileCircle = document.querySelector('.profile-circle');
+            
+            // Удаляем существующие бейджи
+            const existingBadges = document.querySelectorAll('.profile-avatar-badge, .user-badge');
+            existingBadges.forEach(badge => badge.remove());
+            
+            // Добавляем бейдж в профиль
+            if (profileAvatar) {
+                const badge = document.createElement('div');
+                badge.className = `profile-avatar-badge ${currentUser.type}`;
+                profileAvatar.appendChild(badge);
+            }
+            
+            // Добавляем бейдж в кружок навигации
+            if (profileCircle) {
+                const badge = document.createElement('div');
+                badge.className = `user-badge ${currentUser.type}`;
+                profileCircle.appendChild(badge);
+            }
+        }
+        
+        function handleSaveProfile() {
+            if (currentUser) {
+                currentUser.bio = document.getElementById('profileBio').value;
+                
+                // Обновляем данные в массиве users
+                const userIndex = users.findIndex(u => u.id === currentUser.id);
+                if (userIndex !== -1) {
+                    users[userIndex] = currentUser;
+                    saveUsersToLocalStorage();
+                    saveCurrentUserToLocalStorage();
+                }
+                
+                alert('Профиль сохранен!');
+            } else {
+                alert('Войдите в систему для сохранения профиля');
+            }
+        }
+        
+        // ============ ПОРТФОЛИО ============
+        
+        function openAddPortfolioModal() {
+            editingPortfolioId = null;
+            document.getElementById('portfolioModalTitle').textContent = 'Добавить работу в портфолио';
+            document.getElementById('portfolioTitle').value = '';
+            document.getElementById('portfolioType').value = 'certificate';
+            document.getElementById('portfolioDate').valueAsDate = new Date();
+            document.getElementById('portfolioDescription').value = '';
+            document.getElementById('portfolioTags').value = '';
+            uploadedFiles = [];
+            updateUploadedFilesList();
+            document.getElementById('portfolioModal').style.display = 'flex';
+        }
+        
+        function handlePortfolioSubmit(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('portfolioTitle').value.trim();
+            const type = document.getElementById('portfolioType').value;
+            const date = document.getElementById('portfolioDate').value;
+            const description = document.getElementById('portfolioDescription').value.trim();
+            const tags = document.getElementById('portfolioTags').value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+            
+            if (title.length < 2) {
+                alert('Название должно содержать минимум 2 символа');
+                return;
+            }
+            
+            const portfolioData = {
+                id: editingPortfolioId || Date.now().toString(),
+                title,
+                type,
+                date,
+                description,
+                tags,
+                files: [...uploadedFiles],
+                userId: currentUser.id,
+                createdAt: new Date().toISOString()
+            };
+            
+            if (editingPortfolioId) {
+                // Редактирование существующего портфолио
+                const index = userPortfolios.findIndex(p => p.id === editingPortfolioId);
+                if (index !== -1) {
+                    userPortfolios[index] = portfolioData;
+                }
+            } else {
+                // Добавление нового портфолио
+                userPortfolios.push(portfolioData);
+            }
+            
+            savePortfoliosToLocalStorage();
+            loadUserPortfolios();
+            updateStatistics();
+            document.getElementById('portfolioModal').style.display = 'none';
+            
+            alert(editingPortfolioId ? 'Работа обновлена!' : 'Работа добавлена в портфолио!');
+        }
+        
+        function updateUploadedFilesList() {
+            const uploadedFilesList = document.getElementById('uploadedFilesList');
+            if (!uploadedFilesList) return;
+            
+            uploadedFilesList.innerHTML = '';
+            
+            if (uploadedFiles.length === 0) {
+                uploadedFilesList.innerHTML = '<p style="text-align: center; color: var(--light-text); font-size: 0.9rem;">Нет загруженных файлов</p>';
+                return;
+            }
+            
+            uploadedFiles.forEach((file, index) => {
+                const fileElement = document.createElement('div');
+                fileElement.className = 'uploaded-file';
+                fileElement.innerHTML = `
+                    <div class="uploaded-file-info" onclick="previewUploadedFile(${index})">
+                        <i class="fas ${getFileIcon(file.type)}" style="color: var(--accent-color);"></i>
+                        <div>
+                            <div class="uploaded-file-name">${file.name}</div>
+                            <div class="uploaded-file-size">${formatFileSize(file.size)}</div>
+                        </div>
+                    </div>
+                    <button class="remove-file" onclick="removeUploadedFile(${index})">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                uploadedFilesList.appendChild(fileElement);
+            });
+        }
+        
+        window.previewUploadedFile = function(index) {
+            if (index >= uploadedFiles.length) return;
+            
+            const file = uploadedFiles[index];
+            let content = '';
+            
+            if (file.type.startsWith('image/')) {
+                content = `<img src="${file.data}" alt="${file.name}">`;
+            } else {
+                content = `
+                    <div style="padding: 2rem;">
+                        <i class="fas ${getFileIcon(file.type)}" style="font-size: 4rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+                        <h3>${file.name}</h3>
+                        <p style="font-size: 0.9rem; color: var(--light-text); margin-top: 1rem;">Размер: ${formatFileSize(file.size)}</p>
+                    </div>
+                `;
+            }
+            
+            content += `
+                <div class="file-view-actions">
+                    <button class="btn btn-secondary" onclick="document.getElementById('fileViewModal').style.display='none'">Закрыть</button>
+                </div>
+            `;
+            
+            document.getElementById('fileViewContent').innerHTML = content;
+            document.getElementById('fileViewModal').style.display = 'flex';
+        };
+        
+        window.removeUploadedFile = function(index) {
+            uploadedFiles.splice(index, 1);
+            updateUploadedFilesList();
+        };
+        
+        // ============ ШКОЛЫ ============
+        
+        function populateSchoolSelect() {
+            const schoolSelect = document.getElementById('userSchool');
+            if (!schoolSelect) return;
+            
+            schoolSelect.innerHTML = '<option value="">Выберите школу...</option>';
+            schools.forEach(school => {
+                const option = document.createElement('option');
+                option.value = school.id;
+                option.textContent = school.name + ' (' + school.city + ')';
+                schoolSelect.appendChild(option);
+            });
+        }
+        
+        function handleSchoolSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('schoolName').value.trim();
+            const city = document.getElementById('schoolCity').value.trim();
+            const address = document.getElementById('schoolAddress').value.trim();
+            
+            if (name.length < 2) {
+                alert('Название школы должно содержать минимум 2 символа');
+                return;
+            }
+            
+            if (city.length < 2) {
+                alert('Укажите город');
+                return;
+            }
+            
+            const newSchool = {
+                id: 'school' + Date.now(),
+                name,
+                city,
+                address,
+                createdAt: new Date().toISOString()
+            };
+            
+            schools.push(newSchool);
+            saveSchoolsToLocalStorage();
+            loadSchoolsList();
+            
+            alert('Школа добавлена!');
+            document.getElementById('schoolModal').style.display = 'none';
+            e.target.reset();
+        }
+        
+        // ============ ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ============
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        function resetErrorMessages() {
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(msg => {
+                msg.style.display = 'none';
+            });
+        }
+        
+        function updateAvatar(element, imageSrc) {
+            if (!element) return;
+            
+            if (element.querySelector('img')) {
+                element.querySelector('img').src = imageSrc;
+            } else {
+                const img = document.createElement('img');
+                img.src = imageSrc;
+                element.innerHTML = '';
+                element.appendChild(img);
+            }
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' байт';
+            else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' КБ';
+            else return (bytes / 1048576).toFixed(1) + ' МБ';
+        }
+        
+        function getFileIcon(fileType) {
+            if (fileType.startsWith('image/')) return 'fa-image';
+            if (fileType === 'application/pdf') return 'fa-file-pdf';
+            if (fileType.includes('word') || fileType.includes('document')) return 'fa-file-word';
+            return 'fa-file';
+        }
+        
+        // ============ LOCALSTORAGE ============
+        
+        function loadUsersFromLocalStorage() {
+            const storedUsers = localStorage.getItem('portfolioHubUsers');
+            if (storedUsers) {
+                const parsed = JSON.parse(storedUsers);
+                // Миграция: добавляем поле school если его нет
+                parsed.forEach(user => {
+                    if (!user.hasOwnProperty('school')) {
+                        user.school = null;
+                    }
+                });
+                users = parsed;
+            }
+        }
+        
+        function saveUsersToLocalStorage() {
+            localStorage.setItem('portfolioHubUsers', JSON.stringify(users));
+        }
+        
+        function loadCurrentUserFromLocalStorage() {
+            const storedUser = localStorage.getItem('portfolioHubCurrentUser');
+            if (storedUser) {
+                currentUser = JSON.parse(storedUser);
+            }
+        }
+        
+        function saveCurrentUserToLocalStorage() {
+            localStorage.setItem('portfolioHubCurrentUser', JSON.stringify(currentUser));
+        }
+        
+        function loadPortfoliosFromLocalStorage() {
+            const storedPortfolios = localStorage.getItem('portfolioHubPortfolios');
+            if (storedPortfolios) {
+                userPortfolios = JSON.parse(storedPortfolios);
+            }
+        }
+        
+        function savePortfoliosToLocalStorage() {
+            localStorage.setItem('portfolioHubPortfolios', JSON.stringify(userPortfolios));
+        }
+        
+        // ============ ФУНКЦИИ ДЛЯ ДАШБОРДА ============
+        
+        function updateDashboardInfo() {
+            if (!currentUser) return;
+            
+            const dashboardUserName = document.getElementById('dashboardUserName');
+            const dashboardUserType = document.getElementById('dashboardUserType');
+            
+            if (dashboardUserName) {
+                dashboardUserName.textContent = `Портфолио ${currentUser.name}`;
+            }
+            
+            if (dashboardUserType) {
+                dashboardUserType.textContent = currentUser.type === 'student' 
+                    ? 'Собирайте и демонстрируйте свои учебные достижения' 
+                    : 'Делитесь своими профессиональными разработками и успехами';
+            }
+        }
+        
+        function loadUserPortfolios() {
+            if (currentUser) {
+                userPortfolios = userPortfolios.filter(p => p.userId === currentUser.id);
+                savePortfoliosToLocalStorage();
+                updateStatistics();
+                applyFilters();
+            }
+        }
+        
+        function applyFilters() {
+            let filtered = [...userPortfolios];
+            
+            // Фильтр по поисковому запросу
+            if (currentFilter.search) {
+                const searchLower = currentFilter.search.toLowerCase();
+                filtered = filtered.filter(portfolio => 
+                    portfolio.title.toLowerCase().includes(searchLower) ||
+                    (portfolio.description && portfolio.description.toLowerCase().includes(searchLower)) ||
+                    (portfolio.tags && portfolio.tags.some(tag => tag.toLowerCase().includes(searchLower)))
+                );
+            }
+            
+            // Фильтр по дате
+            if (currentFilter.date !== 'all') {
+                const now = new Date();
+                filtered = filtered.filter(portfolio => {
+                    const portfolioDate = new Date(portfolio.date);
+                    
+                    switch (currentFilter.date) {
+                        case 'today':
+                            return portfolioDate.toDateString() === now.toDateString();
+                        case 'week':
+                            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                            return portfolioDate >= weekAgo;
+                        case 'month':
+                            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                            return portfolioDate >= monthAgo;
+                        case 'year':
+                            const yearAgo = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+                            return portfolioDate >= yearAgo;
+                        default:
+                            return true;
+                    }
+                });
+            }
+            
+            // Фильтр по типу
+            if (currentFilter.type !== 'all') {
+                filtered = filtered.filter(portfolio => portfolio.type === currentFilter.type);
+            }
+            
+            renderPortfolios(filtered);
+        }
+        
+        function renderPortfolios(portfolios) {
+            const portfolioList = document.getElementById('portfolioList');
+            const emptyPortfolioMessage = document.getElementById('emptyPortfolioMessage');
+            
+            if (!portfolioList || !emptyPortfolioMessage) return;
+            
+            portfolioList.innerHTML = '';
+            
+            if (portfolios.length === 0) {
+                if (userPortfolios.length === 0) {
+                    emptyPortfolioMessage.style.display = 'block';
+                } else {
+                    const noResults = document.createElement('div');
+                    noResults.className = 'no-results-message';
+                    noResults.innerHTML = `
+                        <i class="fas fa-search"></i>
+                        <h3>Работы не найдены</h3>
+                        <p>По вашему запросу "${currentFilter.search}" ничего не найдено.</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">Попробуйте изменить поисковый запрос или сбросить фильтры.</p>
+                    `;
+                    portfolioList.appendChild(noResults);
+                    emptyPortfolioMessage.style.display = 'none';
+                }
+                return;
+            }
+            
+            emptyPortfolioMessage.style.display = 'none';
+            
+            const typeIcons = {
+                'certificate': 'fa-award',
+                'project': 'fa-project-diagram',
+                'work': 'fa-file-alt',
+                'achievement': 'fa-trophy',
+                'other': 'fa-star'
+            };
+            
+            portfolios.forEach(portfolio => {
+                const portfolioCard = document.createElement('div');
+                portfolioCard.className = 'portfolio-card';
+                
+                const iconClass = typeIcons[portfolio.type] || 'fa-star';
+                
+                // Определяем, есть ли изображения среди файлов
+                let imageSrc = null;
+                let hasImage = false;
+                if (portfolio.files && portfolio.files.length > 0) {
+                    const imageFile = portfolio.files.find(file => file.type.startsWith('image/'));
+                    if (imageFile) {
+                        imageSrc = imageFile.data;
+                        hasImage = true;
+                    }
+                }
+                
+                portfolioCard.innerHTML = `
+                    <div class="portfolio-image">
+                        ${hasImage ? 
+                            `<img src="${imageSrc}" alt="${portfolio.title}" style="cursor: pointer;" 
+                                 onclick="viewPortfolioModalOpen('${portfolio.id}')">` : 
+                            `<i class="fas ${iconClass}" style="cursor: pointer;" 
+                               onclick="viewPortfolioModalOpen('${portfolio.id}')"></i>`}
+                    </div>
+                    <div class="portfolio-content">
+                        <div class="portfolio-title" style="cursor: pointer;" onclick="viewPortfolioModalOpen('${portfolio.id}')">${portfolio.title}</div>
+                        <div class="portfolio-date">${formatDate(portfolio.date)}</div>
+                        <div class="portfolio-description">${portfolio.description ? (portfolio.description.length > 100 ? portfolio.description.substring(0, 100) + '...' : portfolio.description) : 'Нет описания'}</div>
+                        ${portfolio.tags && portfolio.tags.length > 0 ? 
+                            `<div class="portfolio-tags">${portfolio.tags.slice(0, 3).map(tag => `<span class="portfolio-tag">${tag}</span>`).join('')}
+                            ${portfolio.tags.length > 3 ? `<span class="portfolio-tag">+${portfolio.tags.length - 3}</span>` : ''}
+                            </div>` : ''}
+                        <div class="portfolio-actions">
+                            <button class="portfolio-btn portfolio-btn-view" onclick="viewPortfolioModalOpen('${portfolio.id}')">Просмотр</button>
+                            <button class="portfolio-btn portfolio-btn-edit" onclick="openEditPortfolioModal('${portfolio.id}')">Редактировать</button>
+                            <button class="portfolio-btn portfolio-btn-delete" onclick="deletePortfolio('${portfolio.id}')">Удалить</button>
+                        </div>
+                    </div>
+                `;
+                
+                portfolioList.appendChild(portfolioCard);
+            });
+        }
+        
+        window.viewPortfolioModalOpen = function(id) {
+            const portfolio = userPortfolios.find(p => p.id === id);
+            if (!portfolio) return;
+            
+            const typeNames = {
+                'certificate': 'Грамота/Сертификат',
+                'project': 'Проект',
+                'work': 'Работа',
+                'achievement': 'Достижение',
+                'other': 'Другое'
+            };
+            
+            let filesHtml = '';
+            if (portfolio.files && portfolio.files.length > 0) {
+                filesHtml = '<div style="margin-top: 1.5rem;"><h4>Прикрепленные файлы:</h4><div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">';
+                portfolio.files.forEach((file, index) => {
+                    filesHtml += `
+                        <div style="padding: 0.5rem; background-color: var(--secondary-color); border-radius: 4px; font-size: 0.9rem; cursor: pointer;" 
+                             onclick="viewFile('${portfolio.id}', ${index})">
+                            <i class="fas ${getFileIcon(file.type)}" style="margin-right: 0.3rem;"></i>
+                            ${file.name}
+                        </div>`;
+                });
+                filesHtml += '</div></div>';
+            }
+            
+            const tagsHtml = portfolio.tags && portfolio.tags.length > 0 
+                ? `<div style="margin-top: 1rem;"><strong>Теги:</strong> ${portfolio.tags.join(', ')}</div>`
+                : '';
+                
+            const content = `
+                <h2>${portfolio.title}</h2>
+                <div style="margin-top: 1rem; display: flex; gap: 1rem; color: var(--light-text); font-size: 0.9rem;">
+                    <div><i class="fas fa-calendar-alt"></i> ${formatDate(portfolio.date)}</div>
+                    <div><i class="fas fa-tag"></i> ${typeNames[portfolio.type] || 'Другое'}</div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <h4>Описание:</h4>
+                    <p>${portfolio.description || 'Нет описания'}</p>
+                </div>
+                ${tagsHtml}
+                ${filesHtml}
+                <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                    <button class="btn btn-primary" onclick="openEditPortfolioModal('${portfolio.id}'); document.getElementById('viewPortfolioModal').style.display='none'">Редактировать</button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('viewPortfolioModal').style.display='none'">Закрыть</button>
+                </div>
+            `;
+            
+            document.getElementById('viewPortfolioContent').innerHTML = content;
+            document.getElementById('viewPortfolioModal').style.display = 'flex';
+        };
+        
+        window.openEditPortfolioModal = function(id) {
+            const portfolio = userPortfolios.find(p => p.id === id);
+            if (!portfolio) return;
+            
+            editingPortfolioId = id;
+            document.getElementById('portfolioModalTitle').textContent = 'Редактировать работу';
+            document.getElementById('portfolioTitle').value = portfolio.title;
+            document.getElementById('portfolioType').value = portfolio.type;
+            document.getElementById('portfolioDate').value = portfolio.date;
+            document.getElementById('portfolioDescription').value = portfolio.description || '';
+            document.getElementById('portfolioTags').value = portfolio.tags ? portfolio.tags.join(', ') : '';
+            uploadedFiles = portfolio.files ? [...portfolio.files] : [];
+            updateUploadedFilesList();
+            document.getElementById('portfolioModal').style.display = 'flex';
+        };
+        
+        window.viewFile = function(portfolioId, fileIndex) {
+            const portfolio = userPortfolios.find(p => p.id === portfolioId);
+            if (!portfolio || !portfolio.files || !portfolio.files[fileIndex]) return;
+            
+            const file = portfolio.files[fileIndex];
+            let content = '';
+            
+            if (file.type.startsWith('image/')) {
+                content = `<img src="${file.data}" alt="${file.name}">`;
+            } else if (file.type === 'application/pdf') {
+                content = `<iframe src="${file.data}"></iframe>`;
+            } else {
+                content = `
+                    <div style="padding: 2rem;">
+                        <i class="fas fa-file" style="font-size: 4rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+                        <h3>${file.name}</h3>
+                        <p>Этот тип файла не может быть просмотрен в браузере.</p>
+                        <p style="font-size: 0.9rem; color: var(--light-text); margin-top: 1rem;">Размер: ${formatFileSize(file.size)}</p>
+                    </div>
+                `;
+            }
+            
+            content += `
+                <div class="file-view-actions">
+                    <a href="${file.data}" download="${file.name}" class="btn btn-primary">
+                        <i class="fas fa-download"></i> Скачать
+                    </a>
+                    <button class="btn btn-secondary" onclick="document.getElementById('fileViewModal').style.display='none'">Закрыть</button>
+                </div>
+            `;
+            
+            document.getElementById('fileViewContent').innerHTML = content;
+            document.getElementById('fileViewModal').style.display = 'flex';
+        };
+        
+        window.deletePortfolio = function(id) {
+            if (confirm('Вы уверены, что хотите удалить эту работу из портфолио?')) {
+                userPortfolios = userPortfolios.filter(p => p.id !== id);
+                savePortfoliosToLocalStorage();
+                loadUserPortfolios();
+                updateStatistics();
+                applyFilters();
+                alert('Работа удалена из портфолио!');
+            }
+        };
+        
+        function updateStatistics() {
+            const totalItems = document.getElementById('totalItems');
+            const certificatesCount = document.getElementById('certificatesCount');
+            const projectsCount = document.getElementById('projectsCount');
+            const thisMonthCount = document.getElementById('thisMonthCount');
+            
+            if (!totalItems || !certificatesCount || !projectsCount || !thisMonthCount) return;
+            
+            totalItems.textContent = userPortfolios.length;
+            
+            const certificates = userPortfolios.filter(p => p.type === 'certificate').length;
+            const projects = userPortfolios.filter(p => p.type === 'project').length;
+            
+            const now = new Date();
+            const thisMonth = userPortfolios.filter(p => {
+                const portfolioDate = new Date(p.date);
+                return portfolioDate.getMonth() === now.getMonth() && 
+                       portfolioDate.getFullYear() === now.getFullYear();
+            }).length;
+            
+            certificatesCount.textContent = certificates;
+            projectsCount.textContent = projects;
+            thisMonthCount.textContent = thisMonth;
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ru-RU', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+        
+        // ============ ФУНКЦИИ ДЛЯ УЧИТЕЛЯ ============
+        
+        window.viewClassDetails = function(classId) {
+            const classItem = classes.find(c => c.id === classId);
+            if (!classItem) return;
+            
+            let studentsHtml = '<p>В классе нет учеников</p>';
+            if (classItem.students && classItem.students.length > 0) {
+                studentsHtml = '<ul style="list-style: none; padding: 0;">';
+                classItem.students.forEach(studentId => {
+                    const student = users.find(u => u.id === studentId);
+                    if (student) {
+                        studentsHtml += `
+                            <li style="padding: 0.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <strong>${student.name}</strong>
+                                    <div style="font-size: 0.8rem; color: var(--light-text);">${student.email}</div>
+                                </div>
+                                <button class="btn btn-secondary" onclick="teacherViewStudentPortfolio('${student.id}')">
+                                    <i class="fas fa-eye"></i> Портфолио
+                                </button>
+                            </li>
+                        `;
+                    }
+                });
+                studentsHtml += '</ul>';
+            }
+            
+            const content = `
+                <h2>${classItem.name}</h2>
+                <div style="margin: 1rem 0;">
+                    <p><strong>Описание:</strong> ${classItem.description || 'Нет описания'}</p>
+                    <p><strong>Предмет:</strong> ${classItem.subject || 'Не указан'}</p>
+                    <p><strong>Дата создания:</strong> ${new Date(classItem.createdAt).toLocaleDateString('ru-RU')}</p>
+                </div>
+                
+                <h3>Ученики класса (${classItem.students ? classItem.students.length : 0})</h3>
+                ${studentsHtml}
+                
+                <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary" onclick="document.getElementById('viewClassModal').style.display='none'">
+                        Закрыть
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('viewClassContent').innerHTML = content;
+            document.getElementById('viewClassModal').style.display = 'flex';
+        };
+        
+        window.teacherViewStudentPortfolio = function(studentId) {
+            const student = users.find(u => u.id === studentId);
+            if (!student) return;
+            
+            // Закрываем модальное окно класса
+            document.getElementById('viewClassModal').style.display = 'none';
+            
+            // Загружаем портфолио ученика
+            const studentPortfolios = userPortfolios.filter(p => p.userId === studentId);
+            
+            let portfoliosHtml = '<p>У ученика пока нет работ в портфолио</p>';
+            if (studentPortfolios.length > 0) {
+                portfoliosHtml = '<div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;">';
+                studentPortfolios.forEach(portfolio => {
+                    portfoliosHtml += `
+                        <div style="flex: 1 1 300px; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <h4>${portfolio.title}</h4>
+                            <p style="font-size: 0.9rem; color: var(--light-text);">${formatDate(portfolio.date)}</p>
+                            <p style="margin: 0.5rem 0;">${portfolio.description || 'Нет описания'}</p>
+                            <button class="btn btn-primary" onclick="teacherViewPortfolio('${portfolio.id}')" style="margin-top: 0.5rem;">
+                                <i class="fas fa-eye"></i> Просмотреть
+                            </button>
+                            <button class="btn btn-secondary" onclick="downloadPortfolio('${portfolio.id}')" style="margin-top: 0.5rem;">
+                                <i class="fas fa-download"></i> Скачать
+                            </button>
+                        </div>
+                    `;
+                });
+                portfoliosHtml += '</div>';
+            }
+            
+            const content = `
+                <h2>Портфолио ученика: ${student.name}</h2>
+                <div style="margin: 1rem 0;">
+                    <p><strong>Email:</strong> ${student.email}</p>
+                    <p><strong>Школа:</strong> ${student.school ? getSchoolName(student.school) : 'Не указана'}</p>
+                </div>
+                
+                <h3>Работы в портфолио (${studentPortfolios.length})</h3>
+                ${portfoliosHtml}
+                
+                <div style="margin-top: 2rem;">
+                    <button class="btn btn-teacher" onclick="addWorkForStudent('${student.id}')">
+                        <i class="fas fa-plus-circle"></i> Добавить работу для ученика
+                    </button>
+                </div>
+                
+                <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary" onclick="document.getElementById('viewStudentModal').style.display='none'">
+                        Закрыть
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('viewStudentContent').innerHTML = content;
+            document.getElementById('viewStudentModal').style.display = 'flex';
+        };
+        
+        window.teacherViewPortfolio = function(portfolioId) {
+            const portfolio = userPortfolios.find(p => p.id === portfolioId);
+            if (!portfolio) return;
+            
+            const typeNames = {
+                'certificate': 'Грамота/Сертификат',
+                'project': 'Проект',
+                'work': 'Работа',
+                'achievement': 'Достижение',
+                'other': 'Другое'
+            };
+            
+            let filesHtml = '';
+            if (portfolio.files && portfolio.files.length > 0) {
+                filesHtml = '<div style="margin-top: 1.5rem;"><h4>Прикрепленные файлы:</h4><div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">';
+                portfolio.files.forEach((file, index) => {
+                    filesHtml += `
+                        <div style="padding: 0.5rem; background-color: var(--secondary-color); border-radius: 4px; font-size: 0.9rem; cursor: pointer;" 
+                             onclick="viewFile('${portfolio.id}', ${index})">
+                            <i class="fas ${getFileIcon(file.type)}" style="margin-right: 0.3rem;"></i>
+                            ${file.name}
+                        </div>`;
+                });
+                filesHtml += '</div></div>';
+            }
+            
+            const tagsHtml = portfolio.tags && portfolio.tags.length > 0 
+                ? `<div style="margin-top: 1rem;"><strong>Теги:</strong> ${portfolio.tags.join(', ')}</div>`
+                : '';
+                
+            const student = users.find(u => u.id === portfolio.userId);
+            const studentName = student ? student.name : 'Неизвестный ученик';
+                
+            const content = `
+                <h2>${portfolio.title}</h2>
+                <div style="margin-top: 1rem; display: flex; gap: 1rem; color: var(--light-text); font-size: 0.9rem;">
+                    <div><i class="fas fa-user"></i> ${studentName}</div>
+                    <div><i class="fas fa-calendar-alt"></i> ${formatDate(portfolio.date)}</div>
+                    <div><i class="fas fa-tag"></i> ${typeNames[portfolio.type] || 'Другое'}</div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <h4>Описание:</h4>
+                    <p>${portfolio.description || 'Нет описания'}</p>
+                </div>
+                ${tagsHtml}
+                ${filesHtml}
+                <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                    <button class="btn btn-primary" onclick="downloadPortfolio('${portfolio.id}')">
+                        <i class="fas fa-download"></i> Скачать работу
+                    </button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('viewPortfolioModal').style.display='none'">
+                        Закрыть
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('viewPortfolioContent').innerHTML = content;
+            document.getElementById('viewPortfolioModal').style.display = 'flex';
+        };
+        
+        window.downloadPortfolio = function(portfolioId) {
+            const portfolio = userPortfolios.find(p => p.id === portfolioId);
+            if (!portfolio) return;
+            
+            // Создаем текстовый файл с информацией о портфолио
+            let content = `Портфолио: ${portfolio.title}\n`;
+            content += `Дата: ${formatDate(portfolio.date)}\n`;
+            content += `Тип: ${portfolio.type}\n`;
+            content += `Описание: ${portfolio.description || 'Нет описания'}\n`;
+            content += `Теги: ${portfolio.tags ? portfolio.tags.join(', ') : 'Нет тегов'}\n\n`;
+            
+            // Создаем Blob и скачиваем
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `portfolio_${portfolio.title.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Информация о работе скачана в виде текстового файла');
+        };
+        
+        window.addWorkForStudent = function(studentId) {
+            editingPortfolioId = null;
+            
+            document.getElementById('portfolioModalTitle').textContent = 'Добавить работу для ученика';
+            document.getElementById('portfolioTitle').value = '';
+            document.getElementById('portfolioType').value = 'certificate';
+            document.getElementById('portfolioDate').valueAsDate = new Date();
+            document.getElementById('portfolioDescription').value = '';
+            document.getElementById('portfolioTags').value = '';
+            uploadedFiles = [];
+            updateUploadedFilesList();
+            
+            // Сохраняем оригинальный обработчик
+            const originalSubmit = document.getElementById('portfolioForm').onsubmit;
+            
+            // Создаем новый обработчик
+            document.getElementById('portfolioForm').onsubmit = function(e) {
+                e.preventDefault();
+                
+                const title = document.getElementById('portfolioTitle').value.trim();
+                const type = document.getElementById('portfolioType').value;
+                const date = document.getElementById('portfolioDate').value;
+                const description = document.getElementById('portfolioDescription').value.trim();
+                const tags = document.getElementById('portfolioTags').value.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+                
+                if (title.length < 2) {
+                    alert('Название должно содержать минимум 2 символа');
+                    return;
+                }
+                
+                const portfolioData = {
+                    id: Date.now().toString(),
+                    title,
+                    type,
+                    date,
+                    description,
+                    tags,
+                    files: [...uploadedFiles],
+                    userId: studentId, // Работа привязывается к ученику
+                    teacherId: currentUser.id, // Учитель, который добавил работу
+                    createdAt: new Date().toISOString()
+                };
+                
+                userPortfolios.push(portfolioData);
+                savePortfoliosToLocalStorage();
+                
+                alert('Работа добавлена для ученика!');
+                document.getElementById('portfolioModal').style.display = 'none';
+                
+                // Восстанавливаем оригинальный обработчик
+                document.getElementById('portfolioForm').onsubmit = originalSubmit;
+                
+                // Обновляем вид портфолио ученика
+                teacherViewStudentPortfolio(studentId);
+            };
+            
+            document.getElementById('portfolioModal').style.display = 'flex';
+        };
+        
+        window.editClass = function(classId) {
+            const classItem = classes.find(c => c.id === classId);
+            if (!classItem) return;
+            
+            openClassModal(classItem);
+        };
+        
+        function openClassModal(editClass = null) {
+            const isEdit = editClass !== null;
+            const modalTitle = document.getElementById('classModalTitle');
+            const classNameInput = document.getElementById('className');
+            const classDescriptionInput = document.getElementById('classDescription');
+            const classSubjectInput = document.getElementById('classSubject');
+            const availableStudentsList = document.getElementById('availableStudentsList');
+            
+            if (!modalTitle || !classNameInput || !classDescriptionInput || !classSubjectInput || !availableStudentsList) return;
+            
+            modalTitle.textContent = isEdit ? 'Редактировать класс' : 'Создать новый класс';
+            
+            if (isEdit) {
+                classNameInput.value = editClass.name;
+                classDescriptionInput.value = editClass.description || '';
+                classSubjectInput.value = editClass.subject || '';
+            } else {
+                classNameInput.value = '';
+                classDescriptionInput.value = '';
+                classSubjectInput.value = '';
+            }
+            
+            // Загружаем список доступных учеников
+            availableStudentsList.innerHTML = '';
+            
+            // Получаем всех учеников из школы учителя
+            const schoolStudents = users.filter(u => 
+                u.type === 'student' && 
+                u.school === currentUser.school
+            );
+            
+            schoolStudents.forEach(student => {
+                const isInClass = isEdit && editClass.students && editClass.students.includes(student.id);
+                const checkbox = document.createElement('div');
+                checkbox.style.marginBottom = '0.3rem';
+                checkbox.innerHTML = `
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" value="${student.id}" ${isInClass ? 'checked' : ''} 
+                               style="margin-right: 0.5rem;">
+                        ${student.name} (${student.email})
+                    </label>
+                `;
+                availableStudentsList.appendChild(checkbox);
+            });
+            
+            if (schoolStudents.length === 0) {
+                availableStudentsList.innerHTML = '<p>Нет учеников в вашей школе</p>';
+            }
+            
+            // Устанавливаем обработчик для кнопки сохранения
+            const saveClassBtn = document.getElementById('saveClassBtn');
+            if (saveClassBtn) {
+                saveClassBtn.onclick = function(e) {
+                    e.preventDefault();
+                    
+                    const name = classNameInput.value.trim();
+                    const description = classDescriptionInput.value.trim();
+                    const subject = classSubjectInput.value.trim();
+                    
+                    if (name.length < 2) {
+                        alert('Название класса должно содержать минимум 2 символа');
+                        return;
+                    }
+                    
+                    // Получаем выбранных учеников
+                    const selectedStudents = [];
+                    const checkboxes = availableStudentsList.querySelectorAll('input[type="checkbox"]:checked');
+                    checkboxes.forEach(checkbox => {
+                        selectedStudents.push(checkbox.value);
+                    });
+                    
+                    if (isEdit) {
+                        // Обновляем существующий класс
+                        editClass.name = name;
+                        editClass.description = description;
+                        editClass.subject = subject;
+                        editClass.students = selectedStudents;
+                        editClass.updatedAt = new Date().toISOString();
+                    } else {
+                        // Создаем новый класс
+                        const newClass = {
+                            id: Date.now().toString(),
+                            name,
+                            description,
+                            subject,
+                            teacherId: currentUser.id,
+                            students: selectedStudents,
+                            createdAt: new Date().toISOString(),
+                            updatedAt: new Date().toISOString()
+                        };
+                        classes.push(newClass);
+                    }
+                    
+                    saveClassesToLocalStorage();
+                    loadTeacherClasses();
+                    
+                    alert(isEdit ? 'Класс обновлен!' : 'Класс создан!');
+                    document.getElementById('classModal').style.display = 'none';
+                };
+            }
+            
+            document.getElementById('classModal').style.display = 'flex';
+        }
+        
+        function loadTeacherStudents() {
+            if (!currentUser || currentUser.type !== 'teacher') return;
+            
+            const teacherStudentsList = document.getElementById('teacherStudentsList');
+            if (!teacherStudentsList) return;
+            
+            teacherStudentsList.innerHTML = '';
+            
+            // Получаем всех учеников из классов учителя
+            const teacherClasses = classes.filter(c => c.teacherId === currentUser.id);
+            const studentIds = new Set();
+            
+            teacherClasses.forEach(classItem => {
+                if (classItem.students) {
+                    classItem.students.forEach(studentId => {
+                        studentIds.add(studentId);
+                    });
+                }
+            });
+            
+            const teacherStudents = Array.from(studentIds).map(id => users.find(u => u.id === id)).filter(Boolean);
+            
+            if (teacherStudents.length === 0) {
+                teacherStudentsList.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                        <i class="fas fa-user-graduate" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+                        <h3>У вас пока нет учеников</h3>
+                        <p style="color: var(--light-text); margin-bottom: 1.5rem;">Добавьте учеников в свои классы</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            teacherStudents.forEach(student => {
+                const studentCard = document.createElement('div');
+                studentCard.className = 'user-card';
+                
+                // Получаем классы, в которых состоит ученик
+                const studentClasses = classes.filter(c => 
+                    c.students && c.students.includes(student.id) && c.teacherId === currentUser.id
+                );
+                const classesList = studentClasses.map(c => c.name).join(', ');
+                
+                studentCard.innerHTML = `
+                    <div class="user-card-header">
+                        <div class="user-avatar-small">
+                            ${student.avatar ? 
+                                `<img src="${student.avatar}" alt="${student.name}">` : 
+                                `<i class="fas fa-user" style="font-size: 1.5rem; color: #777; margin: 8px;"></i>`}
+                        </div>
+                        <div>
+                            <h3>${student.name}</h3>
+                            <p style="font-size: 0.8rem; color: var(--light-text);">${student.email}</p>
+                            <span class="user-role student">Школьник</span>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.9rem; margin: 0.5rem 0;">
+                        <strong>Классы:</strong> ${classesList || 'Не в классе'}
+                    </p>
+                    <div class="student-actions">
+                        <button class="btn btn-primary" onclick="teacherViewStudentPortfolio('${student.id}')">
+                            <i class="fas fa-eye"></i> Портфолио
+                        </button>
+                        <button class="btn btn-secondary" onclick="addToClass('${student.id}')">
+                            <i class="fas fa-plus"></i> В класс
+                        </button>
+                    </div>
+                `;
+                teacherStudentsList.appendChild(studentCard);
+            });
+        }
+        
+        function loadAllStudentsFromSchool() {
+            if (!currentUser || currentUser.type !== 'teacher') return;
+            
+            const allStudentsList = document.getElementById('allStudentsList');
+            if (!allStudentsList) return;
+            
+            allStudentsList.innerHTML = '';
+            
+            // Получаем всех учеников из школы учителя
+            const schoolStudents = users.filter(u => 
+                u.type === 'student' && 
+                u.school === currentUser.school
+            );
+            
+            if (schoolStudents.length === 0) {
+                allStudentsList.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                        <i class="fas fa-user-graduate" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1rem;"></i>
+                        <h3>В вашей школе нет учеников</h3>
+                        <p style="color: var(--light-text); margin-bottom: 1.5rem;">Школьники могут указать вашу школу при регистрации</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            schoolStudents.forEach(student => {
+                const studentCard = document.createElement('div');
+                studentCard.className = 'user-card';
+                
+                // Проверяем, есть ли ученик уже в классах учителя
+                const isInTeacherClass = classes.some(c => 
+                    c.teacherId === currentUser.id && 
+                    c.students && c.students.includes(student.id)
+                );
+                
+                studentCard.innerHTML = `
+                    <div class="user-card-header">
+                        <div class="user-avatar-small">
+                            ${student.avatar ? 
+                                `<img src="${student.avatar}" alt="${student.name}">` : 
+                                `<i class="fas fa-user" style="font-size: 1.5rem; color: #777; margin: 8px;"></i>`}
+                        </div>
+                        <div>
+                            <h3>${student.name}</h3>
+                            <p style="font-size: 0.8rem; color: var(--light-text);">${student.email}</p>
+                            <span class="user-role student">Школьник</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        ${isInTeacherClass ? 
+                            '<span style="color: var(--student-color); font-size: 0.9rem;"><i class="fas fa-check-circle"></i> Уже в вашем классе</span>' : 
+                            `<button class="btn btn-teacher" onclick="addToClassFromAll('${student.id}')" style="width: 100%;">
+                                <i class="fas fa-plus"></i> Добавить в класс
+                            </button>`}
+                    </div>
+                `;
+                allStudentsList.appendChild(studentCard);
+            });
+        }
+        
+        window.addToClassFromAll = function(studentId) {
+            const teacherClasses = classes.filter(c => c.teacherId === currentUser.id);
+            
+            if (teacherClasses.length === 0) {
+                alert('Сначала создайте класс!');
+                openClassModal();
+                return;
+            }
+            
+            let classOptions = '<p>Выберите класс:</p>';
+            teacherClasses.forEach(classItem => {
+                const isInClass = classItem.students && classItem.students.includes(studentId);
+                classOptions += `
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="radio" name="selectedClass" value="${classItem.id}" 
+                                   style="margin-right: 0.5rem;" ${isInClass ? 'checked' : ''}>
+                            ${classItem.name} (${classItem.subject || 'без предмета'})
+                        </label>
+                    </div>
+                `;
+            });
+            
+            const content = `
+                <h3>Добавить ученика в класс</h3>
+                ${classOptions}
+                <div style="margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="document.getElementById('viewStudentModal').style.display='none'">
+                        Отмена
+                    </button>
+                    <button class="btn btn-teacher" onclick="saveStudentToClassFromAll('${studentId}')" style="margin-left: 0.5rem;">
+                        Сохранить
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('viewStudentContent').innerHTML = content;
+            document.getElementById('viewStudentModal').style.display = 'flex';
+        };
+        
+        window.saveStudentToClassFromAll = function(studentId) {
+            const selectedClassRadio = document.querySelector('input[name="selectedClass"]:checked');
+            if (!selectedClassRadio) {
+                alert('Выберите класс!');
+                return;
+            }
+            
+            const classId = selectedClassRadio.value;
+            const classItem = classes.find(c => c.id === classId);
+            
+            if (!classItem) return;
+            
+            // Добавляем ученика в класс
+            if (!classItem.students) {
+                classItem.students = [];
+            }
+            
+            if (!classItem.students.includes(studentId)) {
+                classItem.students.push(studentId);
+                classItem.updatedAt = new Date().toISOString();
+                saveClassesToLocalStorage();
+                
+                alert('Ученик добавлен в класс!');
+                loadTeacherStudents();
+                loadAllStudentsFromSchool();
+                
+                // Закрываем модальное окно
+                document.getElementById('viewStudentModal').style.display = 'none';
+            } else {
+                alert('Ученик уже в этом классе!');
+            }
+        };
+        
+        window.addToClass = function(studentId) {
+            const teacherClasses = classes.filter(c => c.teacherId === currentUser.id);
+            
+            if (teacherClasses.length === 0) {
+                alert('Сначала создайте класс!');
+                openClassModal();
+                return;
+            }
+            
+            let classOptions = '<p>Выберите класс:</p>';
+            teacherClasses.forEach(classItem => {
+                const isInClass = classItem.students && classItem.students.includes(studentId);
+                classOptions += `
+                    <div style="margin-bottom: 0.5rem;">
+                        <label style="display: flex; align-items: center; cursor: pointer;">
+                            <input type="radio" name="selectedClass" value="${classItem.id}" 
+                                   style="margin-right: 0.5rem;" ${isInClass ? 'checked' : ''}>
+                            ${classItem.name} (${classItem.subject || 'без предмета'})
+                        </label>
+                    </div>
+                `;
+            });
+            
+            const content = `
+                <h3>Добавить ученика в класс</h3>
+                ${classOptions}
+                <div style="margin-top: 1.5rem;">
+                    <button class="btn btn-secondary" onclick="document.getElementById('viewStudentModal').style.display='none'">
+                        Отмена
+                    </button>
+                    <button class="btn btn-teacher" onclick="saveStudentToClass('${studentId}')" style="margin-left: 0.5rem;">
+                        Сохранить
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('viewStudentContent').innerHTML = content;
+            document.getElementById('viewStudentModal').style.display = 'flex';
+        };
+        
+        window.saveStudentToClass = function(studentId) {
+            const selectedClassRadio = document.querySelector('input[name="selectedClass"]:checked');
+            if (!selectedClassRadio) {
+                alert('Выберите класс!');
+                return;
+            }
+            
+            const classId = selectedClassRadio.value;
+            const classItem = classes.find(c => c.id === classId);
+            
+            if (!classItem) return;
+            
+            // Добавляем ученика в класс
+            if (!classItem.students) {
+                classItem.students = [];
+            }
+            
+            if (!classItem.students.includes(studentId)) {
+                classItem.students.push(studentId);
+                classItem.updatedAt = new Date().toISOString();
+                saveClassesToLocalStorage();
+                
+                alert('Ученик добавлен в класс!');
+                loadTeacherStudents();
+                
+                // Возвращаемся к просмотру ученика
+                teacherViewStudentPortfolio(studentId);
+            } else {
+                alert('Ученик уже в этом классе!');
+            }
+        };
+        
+        // ============ ФУНКЦИИ ДЛЯ АДМИНИСТРАТОРА ============
+        
+        function loadAllUsers() {
+            const adminUsersList = document.getElementById('adminUsersList');
+            if (!adminUsersList) return;
+            
+            adminUsersList.innerHTML = '';
+            
+            users.forEach(user => {
+                const userCard = document.createElement('div');
+                userCard.className = 'user-card';
+                
+                const roleClass = `user-role ${user.type}`;
+                const roleText = user.type === 'admin' ? 'Администратор' : 
+                               user.type === 'teacher' ? 'Учитель' : 'Школьник';
+                
+                userCard.innerHTML = `
+                    <div class="user-card-header">
+                        <div class="user-avatar-small">
+                            ${user.avatar ? 
+                                `<img src="${user.avatar}" alt="${user.name}">` : 
+                                `<i class="fas fa-user" style="font-size: 1.5rem; color: #777; margin: 8px;"></i>`}
+                        </div>
+                        <div>
+                            <h3>${user.name}</h3>
+                            <p style="font-size: 0.8rem; color: var(--light-text);">${user.email}</p>
+                            <span class="${roleClass}">${roleText}</span>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.9rem; margin: 0.5rem 0;">
+                        <strong>Школа:</strong> ${user.school ? getSchoolName(user.school) : 'Не указана'}
+                    </p>
+                    <p style="font-size: 0.8rem; color: var(--light-text);">
+                        Зарегистрирован: ${new Date(user.createdAt).toLocaleDateString('ru-RU')}
+                    </p>
+                    <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                        <button class="btn btn-primary" onclick="adminViewUser('${user.id}')">
+                            <i class="fas fa-eye"></i> Просмотр
+                        </button>
+                        ${user.id !== currentUser.id ? `
+                            <button class="btn btn-secondary" onclick="deleteUser('${user.id}')">
+                                <i class="fas fa-trash"></i> Удалить
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+                adminUsersList.appendChild(userCard);
+            });
+        }
+        
+        function loadAllTeachers() {
+            const adminTeachersList = document.getElementById('adminTeachersList');
+            if (!adminTeachersList) return;
+            
+            adminTeachersList.innerHTML = '';
+            
+            const teachers = users.filter(u => u.type === 'teacher');
+            
+            teachers.forEach(user => {
+                const userCard = document.createElement('div');
+                userCard.className = 'user-card';
+                
+                userCard.innerHTML = `
+                    <div class="user-card-header">
+                        <div class="user-avatar-small">
+                            ${user.avatar ? 
+                                `<img src="${user.avatar}" alt="${user.name}">` : 
+                                `<i class="fas fa-user" style="font-size: 1.5rem; color: #777; margin: 8px;"></i>`}
+                        </div>
+                        <div>
+                            <h3>${user.name}</h3>
+                            <p style="font-size: 0.8rem; color: var(--light-text);">${user.email}</p>
+                            <span class="user-role teacher">Учитель</span>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.9rem; margin: 0.5rem 0;">
+                        <strong>Школа:</strong> ${user.school ? getSchoolName(user.school) : 'Не указана'}
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-primary" onclick="adminViewUser('${user.id}')" style="width: 100%;">
+                            <i class="fas fa-eye"></i> Просмотр
+                        </button>
+                    </div>
+                `;
+                adminTeachersList.appendChild(userCard);
+            });
+        }
+        
+        function loadAllStudents() {
+            const adminStudentsList = document.getElementById('adminStudentsList');
+            if (!adminStudentsList) return;
+            
+            adminStudentsList.innerHTML = '';
+            
+            const students = users.filter(u => u.type === 'student');
+            
+            students.forEach(user => {
+                const userCard = document.createElement('div');
+                userCard.className = 'user-card';
+                
+                userCard.innerHTML = `
+                    <div class="user-card-header">
+                        <div class="user-avatar-small">
+                            ${user.avatar ? 
+                                `<img src="${user.avatar}" alt="${user.name}">` : 
+                                `<i class="fas fa-user" style="font-size: 1.5rem; color: #777; margin: 8px;"></i>`}
+                        </div>
+                        <div>
+                            <h3>${user.name}</h3>
+                            <p style="font-size: 0.8rem; color: var(--light-text);">${user.email}</p>
+                            <span class="user-role student">Школьник</span>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.9rem; margin: 0.5rem 0;">
+                        <strong>Школа:</strong> ${user.school ? getSchoolName(user.school) : 'Не указана'}
+                    </p>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-primary" onclick="adminViewUser('${user.id}')" style="width: 100%;">
+                            <i class="fas fa-eye"></i> Просмотр
+                        </button>
+                    </div>
+                `;
+                adminStudentsList.appendChild(userCard);
+            });
+        }
+        
+        window.adminViewUser = function(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            
+            const roleText = user.type === 'admin' ? 'Администратор' : 
+                           user.type === 'teacher' ? 'Учитель' : 'Школьник';
+            
+            // Получаем портфолио пользователя
+            const userPortfoliosCount = userPortfolios.filter(p => p.userId === userId).length;
+            
+            // Получаем классы для ученика
+            let userClasses = [];
+            if (user.type === 'student') {
+                userClasses = classes.filter(c => 
+                    c.students && c.students.includes(userId)
+                );
+            } else if (user.type === 'teacher') {
+                userClasses = classes.filter(c => c.teacherId === userId);
+            }
+            
+            let classesHtml = 'Нет';
+            if (userClasses.length > 0) {
+                classesHtml = '<ul style="padding-left: 1rem;">';
+                userClasses.forEach(classItem => {
+                    classesHtml += `<li>${classItem.name} (${classItem.subject || 'без предмета'})</li>`;
+                });
+                classesHtml += '</ul>';
+            }
+        
+            const content = `
+                <h2>${user.name}</h2>
+                <div style="margin: 1rem 0;">
+                    <p><strong>Роль:</strong> ${roleText}</p>
+                    <p><strong>Email:</strong> ${user.email}</p>
+                    <p><strong>Школа:</strong> ${user.school ? getSchoolName(user.school) : 'Не указана'}</p>
+                    <p><strong>Портфолио:</strong> ${userPortfoliosCount} работ</p>
+                    <p><strong>Классы:</strong> ${classesHtml}</p>
+                    <p><strong>Дата регистрации:</strong> ${new Date(user.createdAt).toLocaleDateString('ru-RU')}</p>
+                </div>
+                
+                <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary" onclick="document.getElementById('viewStudentModal').style.display='none'">
+                        Закрыть
+                    </button>
+                    ${userId !== currentUser.id ? `
+                        <button class="btn btn-admin" onclick="changeUserRole('${userId}')">
+                            <i class="fas fa-exchange-alt"></i> Изменить роль
+                        </button>
+                    ` : ''}
+                </div>
+            `;
+            
+            document.getElementById('viewStudentContent').innerHTML = content;
+            document.getElementById('viewStudentModal').style.display = 'flex';
+        };
+        
+        window.changeUserRole = function(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            
+            const currentRole = user.type;
+            let newRole;
+            
+            if (currentRole === 'student') {
+                newRole = 'teacher';
+            } else if (currentRole === 'teacher') {
+                newRole = 'student';
+            } else {
+                alert('Нельзя изменить роль администратора');
+                return;
+            }
+            
+            if (confirm(`Изменить роль пользователя "${user.name}" с "${currentRole}" на "${newRole}"?`)) {
+                user.type = newRole;
+                saveUsersToLocalStorage();
+                
+                alert('Роль пользователя изменена!');
+                loadAllUsers();
+                loadAllTeachers();
+                loadAllStudents();
+                
+                // Закрываем модальное окно
+                document.getElementById('viewStudentModal').style.display = 'none';
+            }
+        };
+        
+        window.deleteUser = function(userId) {
+            const user = users.find(u => u.id === userId);
+            if (!user) return;
+            
+            if (confirm(`Вы уверены, что хотите удалить пользователя "${user.name}"?`)) {
+                // Удаляем пользователя
+                const userIndex = users.findIndex(u => u.id === userId);
+                if (userIndex !== -1) {
+                    users.splice(userIndex, 1);
+                }
+                
+                // Удаляем портфолио пользователя
+                userPortfolios = userPortfolios.filter(p => p.userId !== userId);
+                
+                // Удаляем пользователя из классов
+                classes.forEach(classItem => {
+                    if (classItem.students && classItem.students.includes(userId)) {
+                        classItem.students = classItem.students.filter(id => id !== userId);
+                    }
+                });
+                
+                saveUsersToLocalStorage();
+                savePortfoliosToLocalStorage();
+                saveClassesToLocalStorage();
+                
+                alert('Пользователь удален!');
+                loadAllUsers();
+                loadAllTeachers();
+                loadAllStudents();
+            }
+        };
+    </script>
+</body>
+</html>
